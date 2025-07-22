@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>トイブログ！</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts for a playful look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles */
+        html { scroll-behavior: smooth; }
+        body {
+            --sky-color: #87CEEB;
+            --cloud-color: white;
+            background-color: var(--sky-color);
+            background-image:
+                radial-gradient(farthest-side at 10% 90%, var(--cloud-color) 15%, transparent 0),
+                radial-gradient(farthest-side at 15% 85%, var(--cloud-color) 20%, transparent 0),
+                radial-gradient(farthest-side at 25% 95%, var(--cloud-color) 25%, transparent 0),
+                radial-gradient(farthest-side at 70% 10%, var(--cloud-color) 15%, transparent 0),
+                radial-gradient(farthest-side at 75% 15%, var(--cloud-color) 20%, transparent 0),
+                radial-gradient(farthest-side at 85% 5%, var(--cloud-color) 25%, transparent 0);
+            background-size: 200px 200px;
+            background-position: 0 0, 0 0, 0 0, 100px 100px, 100px 100px, 100px 100px;
+        }
+        .font-header { font-family: 'Mochiy Pop One', sans-serif; }
+        .card { transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; }
+        .card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+
+        .toy-story-title {
+            color: #E53935;
+            text-shadow: 3px 3px 0px #FBBF24, 5px 5px 0px #3B82F6;
+            transform: rotate(-2deg);
+            display: inline-block;
+            transition: transform 0.2s ease-in-out;
+        }
+        .toy-story-title:hover { transform: rotate(1deg) scale(1.05); }
+
+        /* --- RESTORED: Toy Story Style Quote --- */
+        .toy-quote {
+            background-color: #FEF3C7;
+            border: none;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            position: relative;
+            box-shadow: 0 8px 0 #F97316;
+            margin: 2rem 0;
+            transform: rotate(-1.5deg);
+        }
+        .toy-quote p {
+            font-family: 'Mochiy Pop One', sans-serif;
+            color: #1E40AF;
+            font-size: 1.25rem;
+            font-style: normal;
+        }
+        .toy-quote::before { content: '🚀'; position: absolute; font-size: 2rem; left: -15px; top: -20px; transform: rotate(-25deg); }
+        .toy-quote::after { content: '⭐'; position: absolute; font-size: 1.5rem; right: -10px; bottom: -15px; transform: rotate(15deg); }
+
+        .toy-section {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+            border: 4px dashed #F59E0B;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        .toy-section-title {
+            font-family: 'Mochiy Pop One', sans-serif;
+            color: #D946EF; /* Purple */
+            font-size: 1.8rem;
+            text-align: left;
+            margin-bottom: 1.5rem;
+            transform: rotate(-1deg);
+        }
+
+        /* Comments Section */
+        .comment-form input, .comment-form textarea {
+            border: 4px solid #8B5CF6;
+            background-color: #F5F3FF;
+            border-radius: 12px;
+            padding: 0.75rem;
+            width: 100%;
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+        .comment-form input:focus, .comment-form textarea:focus {
+            outline: none;
+            border-color: #6D28D9;
+            box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.5);
+        }
+        .comment-submit-btn {
+            background-color: #34D399;
+            color: white;
+            font-family: 'Mochiy Pop One', sans-serif;
+            border: none;
+            border-radius: 50px;
+            padding: 0.75rem 2rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #10B981;
+            transition: all 0.1s ease-in-out;
+        }
+        .comment-submit-btn:hover { transform: translateY(2px); box-shadow: 0 3px 0 #10B981; }
+        .comment-submit-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #10B981; }
+        
+        .comment {
+            background: #EFF6FF;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .comment-body .name { font-weight: bold; color: #1D4ED8; }
+        .comment-body .date { font-size: 0.8rem; color: #6B7280; margin-left: 0.5rem; }
+        .comment-body .text { margin-top: 0.5rem; }
+
+        /* Hamburger Menu */
+        #mobile-menu { background-color: #FFFDE7; border-bottom: 4px dashed #F9A825; transition: transform 0.3s ease-out, opacity 0.3s ease-out; transform-origin: top; }
+        #mobile-menu.is-closed { transform: scaleY(0); opacity: 0; display: none; }
+        #mobile-menu a::before { display: inline-block; margin-right: 10px; font-size: 1.2em; }
+        #mobile-menu a[href="#events"]::before { content: '🎪'; }
+        #mobile-menu a[href="#goods"]::before { content: '🎁'; }
+        #mobile-menu a[href="#food"]::before { content: '🍕'; }
+        #mobile-menu a[href="#home"]::before { content: '🏠'; }
+
+        /* TOC */
+        .toc { background: #fff59d; border: 4px solid #c62828; border-radius: 20px; padding: 1rem; margin: 2rem 0; box-shadow: 5px 5px 10px rgba(0,0,0,0.2); }
+        .toc-title { font-family: 'Mochiy Pop One', sans-serif; color: #1E88E5; font-size: 1.5rem; text-align: center; padding: 0.5rem; cursor: pointer; display: flex; justify-content: center; align-items: center; user-select: none; }
+        .toc-arrow { display: inline-block; margin-left: 10px; transition: transform 0.3s ease-in-out; }
+        .toc-title.is-closed .toc-arrow { transform: rotate(-90deg); }
+        .toc-list { list-style: none; padding-left: 0; max-height: 500px; overflow: hidden; transition: all 0.5s ease-in-out; }
+        .toc-list.is-closed { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; margin-top: 0; }
+        .toc-list li a { display: block; text-decoration: none; color: #43A047; padding: 0.75rem 1rem; margin: 0.25rem 0; border-radius: 8px; transition: background-color 0.2s; font-weight: bold; }
+        .toc-list li a:hover { background-color: #a5d6a7; }
+        .toc-list li a::before { content: '🧸'; margin-right: 10px; }
+
+        /* Toy List */
+        .toy-list { list-style: none; padding-left: 0; }
+        .toy-list li { padding-left: 2.5rem; position: relative; margin-bottom: 0.75rem; font-size: 1.1rem; }
+        .toy-list li::before { content: '⭐'; position: absolute; left: 0; top: 0; font-size: 1.5rem; color: #FBBF24; }
+
+        /* Responsive Table */
+        .responsive-table { width: 100%; border-collapse: collapse; margin: 2rem 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; }
+        .responsive-table thead { background-color: #3B82F6; color: white; font-family: 'Mochiy Pop One', sans-serif; }
+        .responsive-table th, .responsive-table td { padding: 1rem; text-align: center; }
+        .responsive-table tbody tr:nth-child(even) { background-color: #E0F7FA; }
+        .responsive-table tbody tr:nth-child(odd) { background-color: #FFF; }
+
+        /* Styles for Markdown content */
+        .markdown-body p {
+            margin-bottom: 1.25rem;
+            line-height: 1.7;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .markdown-body a {
+            color: #3B82F6;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        .markdown-body a:hover {
+            color: #2563EB;
+        }
+        .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: 700;
+            margin-top: 2em;
+            margin-bottom: 1em;
+        }
+        .markdown-body h3 { font-size: 1.5rem; color: #1E40AF; }
+        .markdown-body h4 { font-size: 1.25rem; color: #1E3A8A; }
+        .markdown-body hr {
+            border: 0;
+            height: 4px;
+            background: linear-gradient(to right, transparent, #FBBF24, transparent);
+            margin: 3rem 0;
+        }
+        .markdown-body .toy-quote p {
+            font-family: 'Mochiy Pop One', sans-serif;
+            color: #1E40AF;
+            font-size: 1.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .responsive-table thead { display: none; }
+            .responsive-table tr { display: block; margin-bottom: 1rem; border: 2px solid #3B82F6; border-radius: 8px; }
+            .responsive-table td { display: block; text-align: right; position: relative; padding-left: 50%; border-bottom: 1px solid #ddd; }
+            .responsive-table td:last-child { border-bottom: none; }
+            .responsive-table td::before { content: attr(data-label); position: absolute; left: 1rem; font-weight: bold; text-align: left; color: #3B82F6; }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-white md:bg-white/80 md:backdrop-blur-sm shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-3xl md:text-4xl font-header">
+                <a href="#" class="toy-story-title category-link" data-category="all">トイブログ！</a>
+            </h1>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="category-link text-lg text-gray-700 hover:text-yellow-500 transition-colors duration-300" data-category="all">ホーム</a>
+                <a href="#" class="category-link text-lg text-gray-700 hover:text-yellow-500 transition-colors duration-300" data-category="イベント">イベント</a>
+                <a href="#" class="category-link text-lg text-gray-700 hover:text-yellow-500 transition-colors duration-300" data-category="グッズ">グッズ</a>
+                <a href="#" class="category-link text-lg text-gray-700 hover:text-yellow-500 transition-colors duration-300" data-category="フード">フード</a>
+            </nav>
+            <button id="menu-button" class="md:hidden text-gray-800 focus:outline-none w-8 h-8">
+                <svg viewBox="0 0 100 80" width="40" height="40">
+                  <rect fill="#EF4444" width="100" height="20" rx="10"></rect>
+                  <rect fill="#FBBF24" y="30" width="100" height="20" rx="10"></rect>
+                  <rect fill="#3B82F6" y="60" width="100" height="20" rx="10"></rect>
+                </svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="is-closed md:hidden">
+            <a href="#" class="category-link block py-3 px-6 text-lg text-gray-700 hover:bg-yellow-200 transition-colors duration-200" data-category="all">ホーム</a>
+            <a href="#" class="category-link block py-3 px-6 text-lg text-gray-700 hover:bg-yellow-200 transition-colors duration-200" data-category="イベント">イベント</a>
+            <a href="#" class="category-link block py-3 px-6 text-lg text-gray-700 hover:bg-yellow-200 transition-colors duration-200" data-category="グッズ">グッズ</a>
+            <a href="#" class="category-link block py-3 px-6 text-lg text-gray-700 hover:bg-yellow-200 transition-colors duration-200" data-category="フード">フード</a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div id="mainContent" class="container mx-auto p-4 md:p-8">
+        <section class="text-center mb-12 p-8 bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border-4 border-yellow-400">
+            <h2 class="text-4xl md:text-5xl font-header text-red-500 mb-4">最新パーク情報をお届け！</h2>
+            <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
+                ディズニーリゾートの最新イベント、おすすめグッズ、限定フードなど、パークがもっと楽しくなる情報をお届けします！おもちゃ箱みたいにワクワクする情報をチェックしよう！
+            </p>
+        </section>
+
+        <!-- Filter Title -->
+        <div class="text-center mb-8">
+            <h2 id="filter-title" class="text-3xl font-header text-purple-600">すべての記事</h2>
+        </div>
+
+        <!-- Blog Post Grid -->
+        <div id="post-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Blog posts will be loaded here dynamically -->
+        </div>
+    </div>
+
+    <!-- Article Pages Container (REMOVED) -->
+
+    <!-- UPDATED: Footer -->
+    <footer class="mt-12 py-8 text-center">
+        <div class="container mx-auto px-6">
+            <p class="font-header text-2xl text-blue-600 mb-2">パーク最新情報！</p>
+            <p class="text-gray-700">&copy; 2025 Your Disney Info Blog. All Rights Reserved.</p>
+            <p class="text-sm text-gray-600 mt-2">このサイトはファンのための非公式サイトです。</p>
+        </div>
+    </footer>
+
+    <!-- Marked.js for Markdown to HTML conversion -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBlogPosts();
+            initializeStaticEventListeners();
+        });
+
+        const mainContent = document.getElementById('mainContent');
+        const postGrid = document.getElementById('post-grid');
+        const filterTitle = document.getElementById('filter-title');
+        let allPosts = []; // To store all posts data
+
+        async function loadBlogPosts() {
+            try {
+                const response = await fetch('posts.json');
+                const postsMeta = await response.json();
+
+                // Fetch content and frontmatter for all posts
+                allPosts = await Promise.all(postsMeta.map(async (post) => {
+                    const res = await fetch(post.file);
+                    const markdown = await res.text();
+                    const { attributes, body } = parseFrontmatter(markdown);
+                    return { ...post, attributes, body };
+                }));
+
+                // Check for category in URL and filter posts
+                const params = new URLSearchParams(window.location.search);
+                const categoryFromUrl = params.get('category');
+                const initialCategory = categoryFromUrl || 'all';
+                displayPosts(initialCategory);
+
+            } catch (error) {
+                console.error('Error loading blog posts:', error);
+                postGrid.innerHTML = '<p>記事の読み込みに失敗しました。</p>';
+            }
+        }
+
+        function displayPosts(category) {
+            postGrid.innerHTML = ''; // Clear existing posts
+
+            // Filter posts by category
+            const filteredPosts = category === 'all' 
+                ? allPosts 
+                : allPosts.filter(p => p.attributes.category === category);
+
+            // Update the filter title
+            filterTitle.textContent = category === 'all' ? 'すべての記事' : `カテゴリ: ${category}`;
+
+            if (filteredPosts.length === 0) {
+                postGrid.innerHTML = '<p class="text-center col-span-full">このカテゴリの記事はありません。</p>';
+                return;
+            }
+
+            // Display filtered posts
+            for (const post of filteredPosts) {
+                const card = document.createElement('div');
+                card.className = `card bg-white rounded-2xl shadow-lg overflow-hidden border-4 border-${post.attributes.categoryColor}-400`;
+                card.innerHTML = `
+                    <img src="${post.attributes.image}" alt="[${post.attributes.title}の画像]" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="category-link text-sm bg-${post.attributes.categoryColor}-500 text-white font-bold px-3 py-1 rounded-full cursor-pointer" data-category="${post.attributes.category}">${post.attributes.category}</span>
+                        <h3 class="font-header text-2xl text-${post.attributes.categoryColor}-700 mt-4 mb-2">${post.attributes.title}</h3>
+                        <p class="text-gray-600 mb-4">
+                            ${post.body.substring(0, 80)}...
+                        </p>
+                        <a href="article.html?post=${post.file}" class="read-more-btn inline-block bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-5 rounded-full transition-colors duration-300">続きを読む</a>
+                    </div>
+                `;
+                postGrid.appendChild(card);
+            }
+        }
+
+        function parseFrontmatter(markdown) {
+            const frontmatterRegex = /^---\s*([\s\S]*?)\s*---/;
+            const match = frontmatterRegex.exec(markdown);
+            
+            const attributes = {};
+            let body = markdown;
+
+            if (match) {
+                const frontmatter = match[1];
+                body = markdown.substring(match[0].length).trim();
+                
+                frontmatter.split('\n').forEach(line => {
+                    const [key, ...valueParts] = line.split(':');
+                    if (key && valueParts.length) {
+                        const value = valueParts.join(':').trim().replace(/^"|"$/g, '');
+                        attributes[key.trim()] = value;
+                    }
+                });
+            }
+            
+            return { attributes, body };
+        }
+
+        function initializeStaticEventListeners() {
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('is-closed');
+            });
+
+            // Event delegation for all category links
+            document.body.addEventListener('click', (event) => {
+                const categoryLink = event.target.closest('.category-link');
+                if (categoryLink) {
+                    event.preventDefault();
+                    const category = categoryLink.dataset.category;
+                    displayPosts(category);
+
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('is-closed')) {
+                        mobileMenu.classList.add('is-closed');
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
