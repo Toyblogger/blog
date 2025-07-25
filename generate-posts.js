@@ -6,7 +6,7 @@ const postsJsonPath = path.join(__dirname, 'posts.json');
 const sitemapPath = path.join(__dirname, 'sitemap.xml');
 
 // サイトのベースURL（GitHub PagesのURLに合わせて変更してください）
-const baseUrl = 'https://takeshisakaki.github.io/blog-main/';
+const baseUrl = 'https://github.com/Toyblogger/blog/';
 
 // 1. articlesディレクトリからマークダウンファイルの一覧を取得
 const articleFiles = fs.readdirSync(articlesDir).filter(file => file.endsWith('.md'));
