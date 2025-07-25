@@ -6,7 +6,7 @@ const postsJsonPath = path.join(__dirname, 'posts.json');
 const sitemapPath = path.join(__dirname, 'sitemap.xml');
 
 // GitHub PagesのURLに合わせて変更してください
-const baseUrl = 'https://github.com/Toyblogger/blog/';
+const baseUrl = 'https://Toyblogger.github.io/blog/';
 
 // --- Frontmatterをパースする関数 ---
 function parseFrontmatter(markdown) {
