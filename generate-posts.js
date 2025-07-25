@@ -3,6 +3,10 @@ const path = require('path');
 
 const articlesDir = path.join(__dirname, 'articles');
 const postsJsonPath = path.join(__dirname, 'posts.json');
+const sitemapPath = path.join(__dirname, 'sitemap.xml');
+
+// サイトのベースURL（GitHub PagesのURLに合わせて変更してください）
+const baseUrl = 'https://takeshisakaki.github.io/blog-main/';
 
 // 1. articlesディレクトリからマークダウンファイルの一覧を取得
 const articleFiles = fs.readdirSync(articlesDir).filter(file => file.endsWith('.md'));
@@ -26,3 +30,33 @@ const finalPosts = posts.map(post => ({
 fs.writeFileSync(postsJsonPath, JSON.stringify(finalPosts, null, 4));
 
 console.log(`Successfully generated posts.json with ${finalPosts.length} articles.`);
+
+// 5. サイトマップ(sitemap.xml)を生成
+const sitemapContent = `
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${baseUrl}</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}index.html</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+${posts.map(post => `
+  <url>
+    <loc>${baseUrl}article.html?post=${post.file}</loc>
+    <lastmod>${new Date(post.mtime).toISOString()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+`).join('')}
+</urlset>
+`.trim();
+
+fs.writeFileSync(sitemapPath, sitemapContent);
+
+console.log('Successfully generated sitemap.xml');
