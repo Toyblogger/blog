@@ -1,14 +1,37 @@
 [
     {
-        "file": "articles/pixar-game-day.md"
+        "file": "articles/theme-preview.md",
+        "title": "テーマデザイン・プレビュー",
+        "category": "お知らせ",
+        "categoryColor": "green",
+        "image": "https://placehold.co/800x400/4ADE80/FFFFFF?text=テーマプレビュー"
     },
     {
-        "file": "articles/sample-post.md"
+        "file": "articles/summer-event.md",
+        "title": "【2025年夏】東京ディズニーリゾートのサマー・クールオフ完全ガイド",
+        "category": "ディズニー",
+        "categoryColor": "#00a7e1",
+        "image": "https://www.tokyodisneyresort.jp/treasure/summer2025/tdl/images/mainvisual.jpg"
     },
     {
-        "file": "articles/summer-event.md"
+        "file": "articles/sample-post.md",
+        "title": "新しいサンプル記事",
+        "category": "お知らせ",
+        "categoryColor": "purple",
+        "image": "https://placehold.co/600x400/8B5CF6/FFFFFF?text=サンプル"
     },
     {
-        "file": "articles/theme-preview.md"
+        "file": "articles/pixar-game-day.md",
+        "title": "ピクサー・パルズ・ゲームデー開催！",
+        "category": "新イベント",
+        "categoryColor": "green",
+        "image": "https://placehold.co/600x400/34D399/FFFFFF?text=ゲームデー！"
+    },
+    {
+        "file": "articles/gemini-test.md",
+        "title": "Geminiテスト記事",
+        "category": "テスト",
+        "categoryColor": "green",
+        "image": "https://via.placeholder.com/800x400.png?text=Test+Image"
     }
 ]
