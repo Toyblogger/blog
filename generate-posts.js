@@ -5,7 +5,8 @@ const articlesDir = path.join(__dirname, 'articles');
 const postsJsonPath = path.join(__dirname, 'posts.json');
 const sitemapPath = path.join(__dirname, 'sitemap.xml');
 
-const baseUrl = 'https://github.com/Toyblogger/blog/'; // GitHub PagesのURL
+// GitHub PagesのURLに合わせて変更してください
+const baseUrl = 'https://github.com/Toyblogger/blog/';
 
 // --- Frontmatterをパースする関数 ---
 function parseFrontmatter(markdown) {
@@ -17,8 +18,13 @@ function parseFrontmatter(markdown) {
         frontmatter.split('\n').forEach(line => {
             const [key, ...valueParts] = line.split(':');
             if (key && valueParts.length) {
-                const value = valueParts.join(':').trim().replace(/^['" ]|['" ]$/g, '');
-                attributes[key.trim()] = value;
+                let value = valueParts.join(':').trim();
+                // タグのような配列の場合
+                if (value.startsWith('[') && value.endsWith(']')) {
+                    attributes[key.trim()] = value.slice(1, -1).split(',').map(tag => tag.trim().replace(/^"|"$/g, ''));
+                } else {
+                    attributes[key.trim()] = value.replace(/^['" ]|['" ]$/g, '');
+                }
             }
         });
     }
@@ -39,9 +45,12 @@ const posts = articleFiles.map(file => {
         file: `articles/${file}`,
         mtime: stats.mtime.getTime(),
         title: attributes.title || '無題の記事',
+        date: attributes.date || new Date(stats.mtime).toISOString().split('T')[0],
         category: attributes.category || '未分類',
         categoryColor: attributes.categoryColor || 'gray',
         image: attributes.image || 'https://placehold.co/600x400/gray/FFFFFF?text=No+Image',
+        description: attributes.description || '記事の説明がありません。',
+        tags: attributes.tags || [],
     };
 }).sort((a, b) => b.mtime - a.mtime); // 降順（新しいものが先頭）にソート
 

@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>記事ページ | トイブログ！</title>
-    
+    <meta name="description" content="">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta name="twitter:card" content="summary_large_image">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,6 +116,24 @@
         .markdown-body hr { border: 0; height: 4px; background: linear-gradient(to right, transparent, #FBBF24, transparent); margin: 3rem 0; }
         .markdown-body .toy-quote p { font-family: 'Mochiy Pop One', sans-serif; color: #1E40AF; font-size: 1.25rem; }
         
+        /* Tag Styles */
+        .tag-list { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+        .tag-list a {
+            background-color: #FBBF24; color: #78350F; font-weight: bold; padding: 0.5rem 1rem;
+            border-radius: 9999px; text-decoration: none; font-size: 0.9rem;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .tag-list a:hover { background-color: #F59E0B; transform: scale(1.05); }
+
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed; bottom: 20px; right: 20px; background-color: #EF4444; color: white;
+            width: 50px; height: 50px; border-radius: 50%;
+            display: none; justify-content: center; align-items: center; font-size: 24px;
+            cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: opacity 0.3s, transform 0.3s;
+        }
+        #back-to-top:hover { background-color: #DC2626; transform: scale(1.1); }
+
         @media (max-width: 768px) {
             .responsive-table thead { display: none; }
             .responsive-table tr { display: block; margin-bottom: 1rem; border: 2px solid #3B82F6; border-radius: 8px; }
@@ -160,11 +184,14 @@
         </div>
     </footer>
 
+    <button id="back-to-top" title="トップに戻る">▲</button>
+
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             loadArticle();
             initializeMenu();
+            initializeBackToTop();
         });
 
         function initializeMenu() {
@@ -192,7 +219,7 @@
                 
                 const { attributes, body } = parseFrontmatter(markdown);
                 
-                document.title = `${attributes.title} | トイブログ！`;
+                updateMetaTags(attributes);
 
                 const articleHtml = `
                     <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-10 border-4 border-${attributes.categoryColor}-400">
@@ -219,6 +246,10 @@
                             ${marked.parse(body)}
                         </div>
 
+                        <div id="tags-section" class="mt-8">
+                            <div class="tag-list"></div>
+                        </div>
+
                         <div class="toy-section">
                             <h3 class="toy-section-title">こちらの記事もおすすめ！</h3>
                             <div id="related-posts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -237,6 +268,7 @@
                 applyToyStyles(articleContainer);
                 generateToc(articleContainer);
                 initializeToc(articleContainer);
+                displayTags(articleContainer, attributes.tags);
                 loadRelatedPosts(postFile);
 
             } catch (error) {
@@ -257,12 +289,25 @@
                 frontmatter.split('\n').forEach(line => {
                     const [key, ...valueParts] = line.split(':');
                     if (key && valueParts.length) {
-                        const value = valueParts.join(':').trim().replace(/^"|"$/g, '');
-                        attributes[key.trim()] = value;
+                        let value = valueParts.join(':').trim();
+                        if (value.startsWith('[') && value.endsWith(']')) {
+                            attributes[key.trim()] = value.slice(1, -1).split(',').map(tag => tag.trim().replace(/^"|"$/g, ''));
+                        } else {
+                            attributes[key.trim()] = value.replace(/^"|"$/g, '');
+                        }
                     }
                 });
             }
             return { attributes, body };
+        }
+
+        function updateMetaTags(attributes) {
+            document.title = `${attributes.title} | トイブログ！`;
+            document.querySelector('meta[name="description"]').setAttribute('content', attributes.description);
+            document.querySelector('meta[property="og:title"]').setAttribute('content', attributes.title);
+            document.querySelector('meta[property="og:description"]').setAttribute('content', attributes.description);
+            document.querySelector('meta[property="og:image"]').setAttribute('content', attributes.image);
+            document.querySelector('meta[property="og:url"]').setAttribute('content', window.location.href);
         }
 
         function applyToyStyles(container) {
@@ -311,6 +356,17 @@
             });
         }
 
+        function displayTags(container, tags) {
+            const tagListContainer = container.querySelector('.tag-list');
+            if (!tagListContainer || !tags || tags.length === 0) {
+                document.getElementById('tags-section').style.display = 'none';
+                return;
+            }
+            tagListContainer.innerHTML = tags.map(tag => 
+                `<a href="index.html?tag=${encodeURIComponent(tag)}">${tag}</a>`
+            ).join('');
+        }
+
         async function loadRelatedPosts(currentPostFile) {
             const relatedPostsGrid = document.getElementById('related-posts-grid');
             if (!relatedPostsGrid) return;
@@ -348,6 +404,20 @@
                 console.error('Error loading related posts:', error);
                 relatedPostsGrid.innerHTML = '<p>関連記事の読み込みに失敗しました。</p>';
             }
+        }
+
+        function initializeBackToTop() {
+            const backToTopButton = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.style.display = 'flex';
+                } else {
+                    backToTopButton.style.display = 'none';
+                }
+            });
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
         }
     </script>
 

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>トイブログ！</title>
+    <meta name="description" content="ディズニーリゾートの最新イベント、おすすめグッズ、限定フードなど、パークがもっと楽しくなる情報をお届けします！">
     
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -52,6 +53,54 @@
         #mobile-menu a[data-category="グッズ"]::before { content: '🎁'; }
         #mobile-menu a[data-category="フード"]::before { content: '🍕'; }
 
+        /* Search Box */
+        #search-box {
+            border: 4px solid #F59E0B; border-radius: 50px; padding: 0.5rem 1.5rem;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        #search-box:focus {
+            outline: none; box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.5); border-color: #FBBF24;
+        }
+
+        /* Tag Cloud */
+        .tag-cloud {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+            border: 4px dashed #34D399;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+        }
+        .tag-cloud-title { font-family: 'Mochiy Pop One', sans-serif; color: #10B981; font-size: 1.8rem; text-align: center; margin-bottom: 1.5rem; }
+        .tag-cloud-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+        .tag-cloud-list a {
+            background-color: #FBBF24; color: #78350F; font-weight: bold; padding: 0.5rem 1rem;
+            border-radius: 9999px; text-decoration: none; font-size: 0.9rem;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .tag-cloud-list a:hover { background-color: #F59E0B; transform: scale(1.05); }
+
+        /* Pagination */
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 3rem; }
+        .pagination a, .pagination span {
+            background-color: #3B82F6; color: white; font-family: 'Mochiy Pop One', sans-serif;
+            padding: 0.75rem 1.25rem; border-radius: 12px; text-decoration: none;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .pagination a:hover { background-color: #2563EB; transform: scale(1.05); }
+        .pagination .current { background-color: #EF4444; cursor: default; }
+        .pagination .disabled { background-color: #9CA3AF; cursor: not-allowed; opacity: 0.7; }
+
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed; bottom: 20px; right: 20px; background-color: #EF4444; color: white;
+            width: 50px; height: 50px; border-radius: 50%;
+            display: none; justify-content: center; align-items: center; font-size: 24px;
+            cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: opacity 0.3s, transform 0.3s;
+        }
+        #back-to-top:hover { background-color: #DC2626; transform: scale(1.1); }
+
     </style>
 </head>
 <body class="text-gray-800">
@@ -60,7 +109,7 @@
     <header class="bg-white md:bg-white/80 md:backdrop-blur-sm shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-3xl md:text-4xl font-header">
-                <a href="#" class="toy-story-title category-link" data-category="all">トイブログ！</a>
+                <a href="index.html" class="toy-story-title category-link" data-category="all">トイブログ！</a>
             </h1>
             <nav class="hidden md:flex space-x-8">
                 <a href="#" class="category-link text-lg text-gray-700 hover:text-yellow-500 transition-colors duration-300" data-category="all">ホーム</a>
@@ -93,6 +142,19 @@
             </p>
         </section>
 
+        <!-- Search and Filter Section -->
+        <section class="mb-12">
+            <div class="text-center mb-8">
+                <input type="text" id="search-box" placeholder="記事をさがす..." class="w-full md:w-1/2 mx-auto">
+            </div>
+            <div id="tag-cloud" class="tag-cloud">
+                <h3 class="tag-cloud-title">タグから探す</h3>
+                <div id="tag-cloud-list" class="tag-cloud-list">
+                    <!-- Tags will be loaded here -->
+                </div>
+            </div>
+        </section>
+
         <!-- Filter Title -->
         <div class="text-center mb-8">
             <h2 id="filter-title" class="text-3xl font-header text-purple-600">すべての記事</h2>
@@ -102,11 +164,14 @@
         <div id="post-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Blog posts will be loaded here dynamically -->
         </div>
+
+        <!-- Pagination -->
+        <nav id="pagination-nav" class="pagination">
+            <!-- Pagination links will be loaded here -->
+        </nav>
     </div>
 
-    <!-- Article Pages Container (REMOVED) -->
-
-    <!-- UPDATED: Footer -->
+    <!-- Footer -->
     <footer class="mt-12 py-8 text-center">
         <div class="container mx-auto px-6">
             <p class="font-header text-2xl text-blue-600 mb-2">トイブログ！</p>
@@ -115,8 +180,7 @@
         </div>
     </footer>
 
-    <!-- Marked.js for Markdown to HTML conversion -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <button id="back-to-top" title="トップに戻る">▲</button>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -127,26 +191,32 @@
         const mainContent = document.getElementById('mainContent');
         const postGrid = document.getElementById('post-grid');
         const filterTitle = document.getElementById('filter-title');
-        let allPosts = []; // To store all posts data
+        const searchBox = document.getElementById('search-box');
+        const tagCloudList = document.getElementById('tag-cloud-list');
+        const paginationNav = document.getElementById('pagination-nav');
+        
+        let allPosts = [];
+        let allTags = new Set();
+        const POSTS_PER_PAGE = 6;
 
         async function loadBlogPosts() {
             try {
                 const response = await fetch('posts.json');
-                const postsMeta = await response.json();
+                allPosts = await response.json();
 
-                // Fetch content and frontmatter for all posts
-                allPosts = await Promise.all(postsMeta.map(async (post) => {
-                    const res = await fetch(post.file);
-                    const markdown = await res.text();
-                    const { attributes, body } = parseFrontmatter(markdown);
-                    return { ...post, attributes, body };
-                }));
+                // Collect all unique tags
+                allPosts.forEach(post => {
+                    post.tags.forEach(tag => allTags.add(tag));
+                });
+                displayTagCloud();
 
-                // Check for category in URL and filter posts
+                // Initial display based on URL parameters
                 const params = new URLSearchParams(window.location.search);
-                const categoryFromUrl = params.get('category');
-                const initialCategory = categoryFromUrl || 'all';
-                displayPosts(initialCategory);
+                const category = params.get('category');
+                const tag = params.get('tag');
+                const page = parseInt(params.get('page') || '1', 10);
+
+                filterAndDisplayPosts({ category, tag, page });
 
             } catch (error) {
                 console.error('Error loading blog posts:', error);
@@ -154,62 +224,99 @@
             }
         }
 
-        function displayPosts(category) {
-            postGrid.innerHTML = ''; // Clear existing posts
+        function filterAndDisplayPosts(filters = {}) {
+            const { category, tag, searchTerm, page = 1 } = filters;
+            let filteredPosts = allPosts;
 
-            // Filter posts by category
-            const filteredPosts = category === 'all' 
-                ? allPosts 
-                : allPosts.filter(p => p.attributes.category === category);
+            let title = 'すべての記事';
 
-            // Update the filter title
-            filterTitle.textContent = category === 'all' ? 'すべての記事' : `カテゴリ: ${category}`;
+            if (category && category !== 'all') {
+                filteredPosts = filteredPosts.filter(p => p.category === category);
+                title = `カテゴリ: ${category}`;
+            }
+            if (tag) {
+                filteredPosts = filteredPosts.filter(p => p.tags.includes(tag));
+                title = `タグ: ${tag}`;
+            }
+            if (searchTerm) {
+                const lowerCaseSearchTerm = searchTerm.toLowerCase();
+                filteredPosts = filteredPosts.filter(p => 
+                    p.title.toLowerCase().includes(lowerCaseSearchTerm) || 
+                    p.description.toLowerCase().includes(lowerCaseSearchTerm) ||
+                    p.tags.some(t => t.toLowerCase().includes(lowerCaseSearchTerm))
+                );
+                title = `「${searchTerm}」の検索結果`;
+            }
 
-            if (filteredPosts.length === 0) {
-                postGrid.innerHTML = '<p class="text-center col-span-full">このカテゴリの記事はありません。</p>';
+            filterTitle.textContent = title;
+            displayPaginatedPosts(filteredPosts, page);
+        }
+
+        function displayPaginatedPosts(posts, page) {
+            postGrid.innerHTML = '';
+            paginationNav.innerHTML = '';
+
+            if (posts.length === 0) {
+                postGrid.innerHTML = '<p class="text-center col-span-full">該当する記事はありません。</p>';
                 return;
             }
 
-            // Display filtered posts
-            for (const post of filteredPosts) {
+            const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+            const start = (page - 1) * POSTS_PER_PAGE;
+            const end = start + POSTS_PER_PAGE;
+            const postsToShow = posts.slice(start, end);
+
+            for (const post of postsToShow) {
                 const card = document.createElement('div');
-                card.className = `card bg-white rounded-2xl shadow-lg overflow-hidden border-4 border-${post.attributes.categoryColor}-400`;
+                card.className = `card bg-white rounded-2xl shadow-lg overflow-hidden border-4 border-${post.categoryColor}-400`;
                 card.innerHTML = `
-                    <img src="${post.attributes.image}" alt="[${post.attributes.title}の画像]" class="w-full h-48 object-cover">
+                    <img src="${post.image}" alt="[${post.title}の画像]" class="w-full h-48 object-cover">
                     <div class="p-6">
-                        <span class="category-link text-sm bg-${post.attributes.categoryColor}-500 text-white font-bold px-3 py-1 rounded-full cursor-pointer" data-category="${post.attributes.category}">${post.attributes.category}</span>
-                        <h3 class="font-header text-2xl text-${post.attributes.categoryColor}-700 mt-4 mb-2">${post.attributes.title}</h3>
+                        <span class="category-link text-sm bg-${post.categoryColor}-500 text-white font-bold px-3 py-1 rounded-full cursor-pointer" data-category="${post.category}">${post.category}</span>
+                        <h3 class="font-header text-2xl text-${post.categoryColor}-700 mt-4 mb-2">${post.title}</h3>
                         <p class="text-gray-600 mb-4">
-                            ${post.body.substring(0, 80)}...
+                            ${post.description}
                         </p>
                         <a href="article.html?post=${post.file}" class="read-more-btn inline-block bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-5 rounded-full transition-colors duration-300">続きを読む</a>
                     </div>
                 `;
                 postGrid.appendChild(card);
             }
+
+            createPaginationLinks(totalPages, page);
         }
 
-        function parseFrontmatter(markdown) {
-            const frontmatterRegex = /^---\s*([\s\S]*?)\s*---/;
-            const match = frontmatterRegex.exec(markdown);
-            
-            const attributes = {};
-            let body = markdown;
+        function createPaginationLinks(totalPages, currentPage) {
+            if (totalPages <= 1) return;
 
-            if (match) {
-                const frontmatter = match[1];
-                body = markdown.substring(match[0].length).trim();
-                
-                frontmatter.split('\n').forEach(line => {
-                    const [key, ...valueParts] = line.split(':');
-                    if (key && valueParts.length) {
-                        const value = valueParts.join(':').trim().replace(/^"|"$/g, '');
-                        attributes[key.trim()] = value;
-                    }
-                });
+            // Previous button
+            const prevLink = document.createElement(currentPage > 1 ? 'a' : 'span');
+            prevLink.href = currentPage > 1 ? `?page=${currentPage - 1}` : '#';
+            prevLink.textContent = '前へ';
+            prevLink.className = currentPage > 1 ? '' : 'disabled';
+            paginationNav.appendChild(prevLink);
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLink = document.createElement(i === currentPage ? 'span' : 'a');
+                pageLink.href = i !== currentPage ? `?page=${i}` : '#';
+                pageLink.textContent = i;
+                pageLink.className = i === currentPage ? 'current' : '';
+                paginationNav.appendChild(pageLink);
             }
-            
-            return { attributes, body };
+
+            // Next button
+            const nextLink = document.createElement(currentPage < totalPages ? 'a' : 'span');
+            nextLink.href = currentPage < totalPages ? `?page=${currentPage + 1}` : '#';
+            nextLink.textContent = '次へ';
+            nextLink.className = currentPage < totalPages ? '' : 'disabled';
+            paginationNav.appendChild(nextLink);
+        }
+
+        function displayTagCloud() {
+            tagCloudList.innerHTML = Array.from(allTags).map(tag => 
+                `<a href="#" class="tag-link" data-tag="${tag}">${tag}</a>`
+            ).join('');
         }
 
         function initializeStaticEventListeners() {
@@ -220,19 +327,41 @@
                 mobileMenu.classList.toggle('is-closed');
             });
 
-            // Event delegation for all category links
             document.body.addEventListener('click', (event) => {
                 const categoryLink = event.target.closest('.category-link');
+                const tagLink = event.target.closest('.tag-link');
+
                 if (categoryLink) {
                     event.preventDefault();
-                    const category = categoryLink.dataset.category;
-                    displayPosts(category);
-
-                    // Close mobile menu if open
-                    if (!mobileMenu.classList.contains('is-closed')) {
-                        mobileMenu.classList.add('is-closed');
-                    }
+                    searchBox.value = '';
+                    filterAndDisplayPosts({ category: categoryLink.dataset.category });
+                    if (!mobileMenu.classList.contains('is-closed')) mobileMenu.classList.add('is-closed');
                 }
+                if (tagLink) {
+                    event.preventDefault();
+                    searchBox.value = '';
+                    filterAndDisplayPosts({ tag: tagLink.dataset.tag });
+                }
+            });
+
+            searchBox.addEventListener('input', (e) => {
+                filterAndDisplayPosts({ searchTerm: e.target.value });
+            });
+
+            initializeBackToTop();
+        }
+
+        function initializeBackToTop() {
+            const backToTopButton = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.style.display = 'flex';
+                } else {
+                    backToTopButton.style.display = 'none';
+                }
+            });
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         }
     </script>
