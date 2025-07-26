@@ -1,5 +1,20 @@
 [
     {
+        "file": "articles/pixar-game-day.md",
+        "title": "ピクサー・パルズ・ゲームデー開催！",
+        "date": "2025-07-25",
+        "category": "新イベント",
+        "categoryColor": "green",
+        "image": "https://placehold.co/600x400/34D399/FFFFFF?text=ゲームデー！",
+        "description": "この夏限定のスペシャルイベント「ピクサー・パルズ・ゲームデー」！トイ・ストーリーやモンスターズ・インクの仲間たちとゲームに挑戦しよう！",
+        "tags": [
+            "ピクサー",
+            "イベント",
+            "ゲーム",
+            "限定フード"
+        ]
+    },
+    {
         "file": "articles/policy.md",
         "title": "プライバシーポリシー",
         "date": "2025-07-25",
@@ -65,21 +80,6 @@
             "テスト",
             "Gemini",
             "自動生成"
-        ]
-    },
-    {
-        "file": "articles/pixar-game-day.md",
-        "title": "ピクサー・パルズ・ゲームデー開催！",
-        "date": "2025-07-25",
-        "category": "新イベント",
-        "categoryColor": "green",
-        "image": "https://placehold.co/600x400/34D399/FFFFFF?text=ゲームデー！",
-        "description": "この夏限定のスペシャルイベント「ピクサー・パルズ・ゲームデー」！トイ・ストーリーやモンスターズ・インクの仲間たちとゲームに挑戦しよう！",
-        "tags": [
-            "ピクサー",
-            "イベント",
-            "ゲーム",
-            "限定フード"
         ]
     }
 ]
