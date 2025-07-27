@@ -2,7 +2,7 @@
 title: "プライバシーポリシー"
 date: "2025-07-25"
 image: "https://toyblogger.github.io/blog/thumbnails/001.png"
-category: "その他"
+category: "プライバシーポリシー"
 description: "プライバシーポリシーです。"
 ---
 
