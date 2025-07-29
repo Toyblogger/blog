@@ -1,7 +1,7 @@
 ---
 title: "【2025年夏】東京ディズニーリゾートのサマー・クールオフ完全ガイド"
 date: "2025-07-22"
-image: "https://www.tokyodisneyresort.jp/treasure/summer2025/tdl/images/mainvisual.jpg"
+image: "https://toyblogger.github.io/blog/thumbnails/IMG_4034.png"
 category: "ディズニー"
 categoryColor: "blue"
 description: "2025年夏限定イベント「サマー・クールオフ at Tokyo Disney Resort」の見どころを完全解説！ベイマックスのパレードや限定グルメなど情報満載。"
