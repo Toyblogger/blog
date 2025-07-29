@@ -1,7 +1,7 @@
 ---
 title: "【2025年夏】東京ディズニーリゾートのサマー・クールオフ完全ガイド"
-date: "2025-07-22"
-image: "https://www.tokyodisneyresort.jp/treasure/summer2025/tdl/images/common/ogp.jpg"
+date: "2025-07-25"
+image: "https://toyblogger.github.io/blog/thumbnails/IMG_4045.png"
 category: "ディズニー"
 categoryColor: "blue"
 description: "2025年夏限定イベント「サマー・クールオフ at Tokyo Disney Resort」の見どころを完全解説！ベイマックスのパレードや限定グルメなど情報満載。"
@@ -9,8 +9,8 @@ tags: ["ディズニー", "夏イベント", "ベイマックス", "限定グッ
 ---
 
 # 🌞【2025年夏】東京ディズニーリゾートのサマー・クールオフ完全ガイド
+> 今年も東京ディズニーリゾートに、夏を盛り上げるイベントが帰ってきました！  
 
-今年も東京ディズニーリゾートに、夏を盛り上げるイベントが帰ってきました！  
 2025年の夏限定イベント「**サマー・クールオフ at Tokyo Disney Resort**」は、音楽・水・びしょ濡れ演出が大迫力！  
 本記事では、その見どころを完全解説します。
 
@@ -23,13 +23,13 @@ tags: ["ディズニー", "夏イベント", "ベイマックス", "限定グッ
 ## 🔹 エンターテインメント・ショー
 
 ### 🎈 ベイマックスのミッション・クールダウン（TDL）
-![画像の説明](https://media1.tokyodisneyresort.jp/images/adventure/show/2467_main_visual_name_1.jpg?mod=20250610140458)
+![画像の説明](https://toyblogger.github.io/blog/thumbnails/IMG_4045.png)
 - 水しぶき＆音楽で盛り上がるスペシャルパレード
 - Mrs. GREEN APPLE書き下ろしテーマソングが使用
 - 公演時間：約35分（1日2回）
 
 ### 🔥 ドックサイド・スプラッシュ・リミックス（TDS）
-![画像の説明](https://media1.tokyodisneyresort.jp/images/adventure/show/2629_main_visual_name_1.jpg?mod=20250728160025)
+![画像の説明](https://toyblogger.github.io/blog/thumbnails/IMG_4044.png)
 - 水と火の演出が融合したエネルギッシュなステージ
 - アメリカンウォーターフロントのドックサイドステージで開催
 - キャラクターと一緒に踊って濡れよう！
@@ -51,7 +51,7 @@ tags: ["ディズニー", "夏イベント", "ベイマックス", "限定グッ
 濡れる覚悟で突入すべし！
 
 ## 🍽️ 夏限定フード＆ドリンク
-![画像の説明](https://www.tokyodisneyresort.jp/treasure/frozenselection/goods/assets/image/product/baymaxman/main_01.jpg)
+![画像の説明](https://toyblogger.github.io/blog/thumbnails/IMG_4043.png)
 
 - ベイマックスまん（ストロベリー・レモン味）
 - 冷やしうどんセット
@@ -63,7 +63,6 @@ tags: ["ディズニー", "夏イベント", "ベイマックス", "限定グッ
 ## 🛍️ 夏限定グッズ
 
 - Mrs. GREEN APPLEコラボTシャツ
-![画像の説明](https://media1.tokyodisneyresort.jp/images/adventure/goods/68353cdbec6fb_1.jpg?mod=20250616160007)
 - 速乾フェイスタオル
 - びしょ濡れ必須の防水グッズ
 - リゾートライン限定・夏デザインフリーパス
@@ -71,7 +70,7 @@ tags: ["ディズニー", "夏イベント", "ベイマックス", "限定グッ
 かわいくて機能的なグッズ多数！早めにゲットしよう。
 
 ## 🎫 チケット情報
-![画像の説明](https://media2.tokyodisneyresort.jp/home/ticket/park_hopper/banner_ParkHopper_KV.jpg)
+![限定チケット](https://toyblogger.github.io/blog/thumbnails/IMG_4042.png)
 - **1デーパークホッパーパス**：1日でランド＆シー行き来可能（期間限定）
 - **ウィークナイトパスポート**：平日17時以降にお得入園
 - **サマー・スペシャルパスポート**：時間指定＆割引価格あり
@@ -101,7 +100,3 @@ Mrs. GREEN APPLEの楽曲が響くなかでびしょ濡れになれば、思い�
 **💬 あなたはどのプログラムが気になりますか？**  
 ぜひコメントで教えてください！  
 SNSシェアも大歓迎です📣
-
----
-
-_出典：公式サイト [tokyodisneyresort.jp](https://www.tokyodisneyresort.jp/treasure/summer2025/tdl/) / [Fun Japan](https://www.fun-japan.jp/en/articles/14162) / [WDWNT](https://wdwnt.com/2025/04/baymaxs-mission-cool-down-parade-returning-for-summer-2025-at-tokyo-disneyland/)_
