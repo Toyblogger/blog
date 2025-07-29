@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>シンプルMarkdownエディタ</title>
+    <title>高機能Markdownエディタ</title>
     <!-- Tailwind CSS CDN for mobile-first styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts for better readability -->
@@ -40,14 +40,8 @@
 
         /* General Layout */
         .container {
-            max-width: 100%;
+            max-width: 1200px; /* Wider container for side-by-side layout */
             padding: 1rem;
-        }
-        @media (min-width: 768px) {
-            .container {
-                max-width: 768px;
-                padding: 2rem;
-            }
         }
         
         /* Input Fields */
@@ -71,7 +65,7 @@
             box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.5); /* Purple glow */
         }
         textarea#markdown-input {
-            min-height: 200px;
+            min-height: 400px; /* Taller editor */
             resize: vertical;
             font-family: monospace; /* Keep monospace for code input */
         }
@@ -86,22 +80,27 @@
         .blog-btn {
             font-family: 'Mochiy Pop One', sans-serif;
             border: none;
-            border-radius: 50px;
-            padding: 0.75rem 2rem;
-            font-size: 1.1rem;
+            border-radius: 10px; /* Less rounded for a slightly more modern look */
+            padding: 0.5rem 1rem; /* Smaller padding for toolbar */
+            font-size: 0.9rem;
             cursor: pointer;
-            box-shadow: 0 5px 0 #10B981; /* Green shadow */
+            box-shadow: 0 4px 0 #10B981; /* Green shadow */
             transition: all 0.1s ease-in-out;
             background-color: #34D399; /* Green */
             color: white;
         }
-        .blog-btn:hover { transform: translateY(2px); box-shadow: 0 3px 0 #10B981; }
-        .blog-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #10B981; }
+        .blog-btn:hover { transform: translateY(2px); box-shadow: 0 2px 0 #10B981; }
+        .blog-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #10B981; }
+        .file-ops-btn {
+             padding: 0.75rem 1.5rem;
+             font-size: 1rem;
+             border-radius: 50px;
+        }
 
         /* Markdown Preview Area */
         .markdown-preview {
             background-color: #fff;
-            padding: 1rem;
+            padding: 1.5rem; /* More padding */
             border-radius: 0.5rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             min-height: 150px;
@@ -115,6 +114,7 @@
         .markdown-preview p { margin-bottom: 1.25rem; line-height: 1.7; font-family: 'Noto Sans JP', sans-serif; }
         .markdown-preview a { color: #3B82F6; text-decoration: underline; font-weight: bold; }
         .markdown-preview a:hover { color: #2563EB; }
+        .markdown-preview img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 1rem 0; }
         .markdown-preview h1, .markdown-preview h2, .markdown-preview h3, .markdown-preview h4, .markdown-preview h5, .markdown-preview h6 {
             font-family: 'Mochiy Pop One', sans-serif; font-weight: 700; margin-top: 2em; margin-bottom: 1em;
         }
@@ -137,6 +137,58 @@
         .markdown-preview tbody tr:nth-child(even) { background-color: #E0F7FA; }
         .markdown-preview tbody tr:nth-child(odd) { background-color: #FFF; }
 
+        /* NEW: List Styles */
+        .markdown-preview ul { list-style: none; padding-left: 1.5em; }
+        .markdown-preview ul li { position: relative; margin-bottom: 0.5em; padding-left: 1.5em; }
+        .markdown-preview ul li::before {
+            content: '🎁'; /* Gift emoji as bullet */
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.2em;
+            line-height: 1.5;
+        }
+        .markdown-preview ol { list-style: none; counter-reset: item; padding-left: 1.5em; }
+        .markdown-preview ol li { position: relative; margin-bottom: 0.5em; padding-left: 1.5em; }
+        .markdown-preview ol li::before {
+            content: counter(item);
+            counter-increment: item;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.2em;
+            height: 1.2em;
+            border-radius: 50%;
+            background: #FBBF24;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9em;
+            line-height: 1.2em;
+        }
+
+        /* NEW: Code Block Styles */
+        .markdown-preview pre {
+            background-color: #2d2d2d;
+            color: #f2f2f2;
+            padding: 1em;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .markdown-preview code {
+            background-color: #eee;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 85%;
+        }
+        .markdown-preview pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-size: inherit;
+        }
+
         /* Form Group Styling */
         .form-group {
             margin-bottom: 0.75rem;
@@ -151,13 +203,13 @@
 </head>
 <body class="flex flex-col min-h-screen text-gray-800">
     <header class="bg-white md:bg-white/80 md:backdrop-blur-sm shadow-lg p-4">
-        <h1 class="text-3xl font-header text-center toy-story-title">シンプルMarkdownエディタ</h1>
+        <h1 class="text-3xl font-header text-center toy-story-title">高機能Markdownエディタ</h1>
     </header>
 
     <main class="flex-grow container mx-auto mt-4 md:mt-8 p-4 bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border-4 border-yellow-400">
-        <div class="flex flex-col md:flex-row md:space-x-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Editor Section -->
-            <section class="w-full md:w-1/2 mb-4 md:mb-0">
+            <section>
                 <h2 class="text-xl font-semibold mb-2 font-header text-purple-600">記事情報 (Frontmatter)</h2>
                 <div class="bg-white p-4 rounded-lg shadow-md mb-4 border-4 border-blue-400">
                     <div class="form-group">
@@ -177,9 +229,9 @@
                         <input type="text" id="fm-category" placeholder="例: イベント, グッズ">
                     </div>
                     <div class="form-group flex items-center">
-                        <label for="fm-categoryColor" class="mr-2">カテゴリ色 (Tailwind CSSカラー名):</label>
+                        <label for="fm-categoryColor" class="mr-2">カテゴリ色:</label>
                         <input type="text" id="fm-categoryColor" class="flex-grow" placeholder="例: blue, red, green">
-                        <input type="color" id="fm-colorPicker" class="ml-2" value="#4299e1" onchange="document.getElementById('fm-categoryColor').value = this.value;">
+                        <input type="color" id="fm-colorPicker" class="ml-2" value="#4299e1">
                     </div>
                     <div class="form-group">
                         <label for="fm-description">説明 (description):</label>
@@ -192,22 +244,27 @@
                 </div>
 
                 <h2 class="text-xl font-semibold mb-2 font-header text-purple-600">Markdown入力</h2>
-                <div class="flex flex-wrap gap-2 mb-2">
-                    <button class="blog-btn" onclick="insertMarkdown('# ', '見出し1')">H1</button>
-                    <button class="blog-btn" onclick="insertMarkdown('## ', '見出し2')">H2</button>
-                    <button class="blog-btn" onclick="insertMarkdown('### ', '見出し3')">H3</button>
-                    <button class="blog-btn" onclick="insertMarkdown('> ', '引用')">引用</button>
-                    <button class="blog-btn" onclick="insertTable()">表</button>
-                    <button class="blog-btn bg-blue-500 hover:bg-blue-600" onclick="document.getElementById('file-input').click()">ファイルを開く</button>
-                    <input type="file" id="file-input" accept=".md" class="hidden" onchange="loadFile(event)">
-                    <button class="blog-btn bg-red-500 hover:bg-red-600" onclick="resetEditor()">リセット</button>
-                    <button class="blog-btn bg-green-500 hover:bg-green-600" onclick="exportMarkdown()">Markdownエクスポート</button>
+                <div class="bg-gray-100 p-2 rounded-lg mb-2 flex flex-wrap gap-2 items-center">
+                    <button id="btn-bold" class="blog-btn" title="太字"><b>B</b></button>
+                    <button id="btn-italic" class="blog-btn" title="斜体"><i>I</i></button>
+                    <button id="btn-strike" class="blog-btn" title="打ち消し線"><s>S</s></button>
+                    <button id="btn-link" class="blog-btn" title="リンク">Link</button>
+                    <button id="btn-image" class="blog-btn" title="画像">Img</button>
+                    <button id="btn-code" class="blog-btn" title="コードブロック">Code</button>
+                    <button id="btn-quote" class="blog-btn" title="引用">Quote</button>
+                    <button id="btn-table" class="blog-btn" title="表">Table</button>
                 </div>
-                <textarea id="markdown-input" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="ここにMarkdownを記述してください..." onkeyup="updatePreview()"></textarea>
+                 <textarea id="markdown-input" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="ここにMarkdownを記述してください..."></textarea>
+                 <div class="flex flex-wrap gap-2 mt-4">
+                    <button id="btn-file-open" class="blog-btn file-ops-btn bg-blue-500 hover:bg-blue-600">ファイルを開く</button>
+                    <input type="file" id="file-input" accept=".md" class="hidden">
+                    <button id="btn-reset" class="blog-btn file-ops-btn bg-red-500 hover:bg-red-600">リセット</button>
+                    <button id="btn-export" class="blog-btn file-ops-btn bg-green-500 hover:bg-green-600">Markdownエクスポート</button>
+                </div>
             </section>
 
             <!-- Preview Section -->
-            <section class="w-full md:w-1/2">
+            <section>
                 <h2 class="text-xl font-semibold mb-2 font-header text-purple-600">プレビュー</h2>
                 <div id="markdown-preview" class="markdown-preview border border-gray-300">
                     <!-- Markdown content will be rendered here -->
@@ -218,7 +275,7 @@
 
     <footer class="mt-12 py-8 text-center bg-gray-200">
         <div class="container mx-auto px-6">
-            <p class="font-header text-2xl text-blue-600 mb-2">シンプルMarkdownエディタ</p>
+            <p class="font-header text-2xl text-blue-600 mb-2">高機能Markdownエディタ</p>
             <p class="text-gray-700">&copy; 2025. All Rights Reserved.</p>
         </div>
     </footer>
@@ -226,225 +283,274 @@
     <!-- Marked.js CDN for Markdown to HTML conversion -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
-        const markdownInput = document.getElementById('markdown-input');
-        const markdownPreview = document.getElementById('markdown-preview');
+        document.addEventListener('DOMContentLoaded', () => {
+            const markdownInput = document.getElementById('markdown-input');
+            const markdownPreview = document.getElementById('markdown-preview');
 
-        // Frontmatter input elements
-        const fmTitle = document.getElementById('fm-title');
-        const fmDate = document.getElementById('fm-date');
-        const fmImage = document.getElementById('fm-image');
-        const fmCategory = document.getElementById('fm-category');
-        const fmCategoryColor = document.getElementById('fm-categoryColor');
-        const fmDescription = document.getElementById('fm-description');
-        const fmTags = document.getElementById('fm-tags');
-        const fmColorPicker = document.getElementById('fm-colorPicker');
-
-        // Set today's date as default for fmDate
-        fmDate.valueAsDate = new Date();
-
-        // Sync color picker with text input
-        fmCategoryColor.addEventListener('input', () => {
-            try {
-                // Check if the input value is a valid hex color before setting to color picker
-                if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(fmCategoryColor.value)) {
-                    fmColorPicker.value = fmCategoryColor.value;
-                }
-            } catch (e) {
-                // Invalid color name, ignore
-            }
-        });
-        fmColorPicker.addEventListener('input', () => {
-            fmCategoryColor.value = fmColorPicker.value;
-        });
-
-        // Event listeners for auto-saving
-        const fmInputs = [fmTitle, fmDate, fmImage, fmCategory, fmCategoryColor, fmDescription, fmTags];
-        fmInputs.forEach(input => input.addEventListener('input', saveContent));
-        markdownInput.addEventListener('input', saveContent);
-
-        // Function to update the preview in real-time
-        function updatePreview() {
-            markdownPreview.innerHTML = marked.parse(markdownInput.value);
-        }
-
-        // Function to insert Markdown syntax at cursor position
-        function insertMarkdown(syntax, placeholder) {
-            const start = markdownInput.selectionStart;
-            const end = markdownInput.selectionEnd;
-            const value = markdownInput.value;
-
-            let textToInsert = syntax + placeholder;
-            if (start === end) { // No text selected
-                markdownInput.value = value.substring(0, start) + textToInsert + value.substring(end);
-                markdownInput.selectionStart = markdownInput.selectionEnd = start + syntax.length;
-            } else { // Text selected
-                const selectedText = value.substring(start, end);
-                textToInsert = syntax + selectedText;
-                markdownInput.value = value.substring(0, start) + textToInsert + value.substring(end);
-                markdownInput.selectionStart = start + syntax.length;
-                markdownInput.selectionEnd = start + syntax.length + selectedText.length;
-            }
-            markdownInput.focus();
-            updatePreview();
-            saveContent(); // Save after inserting markdown
-        }
-
-        // Function to insert a basic Markdown table
-        function insertTable() {
-            const tableSyntax = `\n| ヘッダー1 | ヘッダー2 |\n|---|---|\n| データ1 | データ2 |\n| データ3 | データ4 |\n`;
-            insertMarkdown(tableSyntax, '');
-        }
-
-        // Function to export Markdown content with frontmatter as a .md file
-        function exportMarkdown() {
-            const fullContent = generateFullMarkdown();
-            const blob = new Blob([fullContent], { type: 'text/markdown;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = (fmTitle.value.trim() ? fmTitle.value.trim().replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'my_article') + '.md'; // Sanitize filename
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url); // Clean up the URL object
-        }
-
-        // Function to generate full markdown content including frontmatter
-        function generateFullMarkdown() {
-            const title = fmTitle.value.trim();
-            const date = fmDate.value.trim();
-            const image = fmImage.value.trim();
-            const category = fmCategory.value.trim();
-            const categoryColor = fmCategoryColor.value.trim();
-            const description = fmDescription.value.trim();
-            const tags = fmTags.value.trim(); // Tags are comma-separated string
-
-            let frontmatter = '---\n';
-            if (title) frontmatter += `title: "${title}"\n`;
-            if (date) frontmatter += `date: "${date}"\n`;
-            if (image) frontmatter += `image: "${image}"\n`;
-            if (category) frontmatter += `category: "${category}"\n`;
-            if (categoryColor) frontmatter += `categoryColor: "${categoryColor}"\n`;
-            if (description) frontmatter += `description: "${description}"\n`;
-            if (tags) frontmatter += `tags: [${tags.split(',').map(tag => `"${tag.trim()}"`).join(', ')}]\n`;
-            frontmatter += '---\n\n';
-
-            const markdownBody = markdownInput.value;
-            return frontmatter + markdownBody;
-        }
-
-        // --- Local Storage Functions ---
-        const LOCAL_STORAGE_KEY = 'markdownEditorContent';
-
-        function saveContent() {
-            const content = {
-                title: fmTitle.value,
-                date: fmDate.value,
-                image: fmImage.value,
-                category: fmCategory.value,
-                categoryColor: fmCategoryColor.value,
-                description: fmDescription.value,
-                tags: fmTags.value,
-                markdownBody: markdownInput.value
-            };
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(content));
-        }
-
-        function loadContent() {
-            const savedContent = localStorage.getItem(LOCAL_STORAGE_KEY);
-            if (savedContent) {
-                const content = JSON.parse(savedContent);
-                fmTitle.value = content.title || '';
-                fmDate.value = content.date || '';
-                fmImage.value = content.image || '';
-                fmCategory.value = content.category || '';
-                fmCategoryColor.value = content.categoryColor || '';
-                fmDescription.value = content.description || '';
-                fmTags.value = content.tags || '';
-                markdownInput.value = content.markdownBody || '';
-                updatePreview();
-            } else {
-                // If no saved content, set default date
-                fmDate.valueAsDate = new Date();
-            }
-        }
-
-        function resetEditor() {
-            if (confirm('入力内容と保存データをすべてリセットしますか？')) {
-                fmTitle.value = '';
-                fmDate.valueAsDate = new Date(); // Reset to today's date
-                fmImage.value = '';
-                fmCategory.value = '';
-                fmCategoryColor.value = '';
-                fmDescription.value = '';
-                fmTags.value = '';
-                markdownInput.value = '';
-                localStorage.removeItem(LOCAL_STORAGE_KEY);
-                updatePreview();
-            }
-        }
-
-        // --- File Import Function ---
-        function loadFile(event) {
-            const file = event.target.files[0];
-            if (!file) {
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const content = e.target.result;
-                parseAndLoadMarkdown(content);
-                saveContent(); // Save loaded content
-            };
-            reader.readAsText(file);
-        }
-
-        function parseAndLoadMarkdown(fullMarkdown) {
-            const frontmatterRegex = /^---\s*([\s\S]*?)\s*---/;
-            const match = frontmatterRegex.exec(fullMarkdown);
+            // Frontmatter input elements
+            const fmTitle = document.getElementById('fm-title');
+            const fmDate = document.getElementById('fm-date');
+            const fmImage = document.getElementById('fm-image');
+            const fmCategory = document.getElementById('fm-category');
+            const fmCategoryColor = document.getElementById('fm-categoryColor');
+            const fmDescription = document.getElementById('fm-description');
+            const fmTags = document.getElementById('fm-tags');
+            const fmColorPicker = document.getElementById('fm-colorPicker');
             
-            let frontmatterAttributes = {};
-            let markdownBodyContent = fullMarkdown;
+            // Button elements
+            const btnBold = document.getElementById('btn-bold');
+            const btnItalic = document.getElementById('btn-italic');
+            const btnStrike = document.getElementById('btn-strike');
+            const btnLink = document.getElementById('btn-link');
+            const btnImage = document.getElementById('btn-image');
+            const btnCode = document.getElementById('btn-code');
+            const btnQuote = document.getElementById('btn-quote');
+            const btnTable = document.getElementById('btn-table');
+            const btnFileOpen = document.getElementById('btn-file-open');
+            const fileInput = document.getElementById('file-input');
+            const btnReset = document.getElementById('btn-reset');
+            const btnExport = document.getElementById('btn-export');
 
-            if (match) {
-                const frontmatterRaw = match[1];
-                markdownBodyContent = fullMarkdown.substring(match[0].length).trim();
 
-                frontmatterRaw.split('\n').forEach(line => {
-                    const parts = line.split(':');
-                    if (parts.length >= 2) {
-                        const key = parts[0].trim();
-                        let value = parts.slice(1).join(':').trim();
-                        
-                        // Handle tags array
-                        if (key === 'tags' && value.startsWith('[') && value.endsWith(']')) {
-                            value = value.slice(1, -1).split(',').map(tag => tag.trim().replace(/^"|"$/g, '')).join(', ');
-                        } else {
-                            value = value.replace(/^"|"$/g, ''); // Remove quotes
-                        }
-                        frontmatterAttributes[key] = value;
-                    }
+            // --- Event Listeners ---
+            fmColorPicker.addEventListener('input', () => {
+                fmCategoryColor.value = fmColorPicker.value;
+            });
+
+            const allInputs = [fmTitle, fmDate, fmImage, fmCategory, fmCategoryColor, fmDescription, fmTags, markdownInput];
+            allInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    updatePreview();
+                    saveContent();
                 });
+            });
+            
+            btnBold.addEventListener('click', () => wrapText('**', '**', '太字'));
+            btnItalic.addEventListener('click', () => wrapText('*', '*', '斜体'));
+            btnStrike.addEventListener('click', () => wrapText('~~', '~~', '打ち消し線'));
+            btnLink.addEventListener('click', insertLink);
+            btnImage.addEventListener('click', insertImage);
+            btnCode.addEventListener('click', () => wrapText('\n```\n', '\n```', 'コード'));
+            btnQuote.addEventListener('click', () => insertMarkdown('> ', '引用'));
+            btnTable.addEventListener('click', insertTable);
+            
+            btnFileOpen.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', loadFile);
+            
+            btnReset.addEventListener('click', resetEditor);
+            btnExport.addEventListener('click', exportMarkdown);
+
+
+            // --- Core Functions ---
+            function updatePreview() {
+                if(marked && typeof marked.parse === 'function') {
+                    markdownPreview.innerHTML = marked.parse(markdownInput.value);
+                }
             }
 
-            // Populate frontmatter fields
-            fmTitle.value = frontmatterAttributes.title || '';
-            fmDate.value = frontmatterAttributes.date || '';
-            fmImage.value = frontmatterAttributes.image || '';
-            fmCategory.value = frontmatterAttributes.category || '';
-            fmCategoryColor.value = frontmatterAttributes.categoryColor || '';
-            fmDescription.value = frontmatterAttributes.description || '';
-            fmTags.value = frontmatterAttributes.tags || '';
+            function wrapText(before, after, placeholder = '') {
+                const start = markdownInput.selectionStart;
+                const end = markdownInput.selectionEnd;
+                const value = markdownInput.value;
+                const selectedText = value.substring(start, end);
 
-            // Populate markdown body
-            markdownInput.value = markdownBodyContent;
-            updatePreview();
-        }
+                const replacement = selectedText 
+                    ? before + selectedText + after 
+                    : before + placeholder + after;
 
-        // Initial load
-        loadContent();
-        updatePreview();
+                markdownInput.value = value.substring(0, start) + replacement + value.substring(end);
+                markdownInput.focus();
+                
+                if (selectedText) {
+                    markdownInput.selectionStart = start + before.length;
+                    markdownInput.selectionEnd = end + before.length;
+                } else {
+                    markdownInput.selectionStart = start + before.length;
+                    markdownInput.selectionEnd = start + before.length + placeholder.length;
+                }
+                updatePreview();
+                saveContent();
+            }
+            
+            function insertMarkdown(syntax, placeholder) {
+                wrapText(syntax, '', placeholder);
+            }
+
+            function insertLink() {
+                const url = prompt('リンク先のURLを入力してください:', 'https://');
+                if (url) {
+                    wrapText('[', `](${url})`, 'リンクテキスト');
+                }
+            }
+
+            function insertImage() {
+                const url = prompt('画像のURLを入力してください:', 'https://');
+                if (url) {
+                    insertMarkdown(`![画像の説明](${url})`, '');
+                }
+            }
+
+            function insertTable() {
+                const tableSyntax = `\n| ヘッダー1 | ヘッダー2 |\n|---|---|\n| データ1 | データ2 |\n| データ3 | データ4 |\n`;
+                const start = markdownInput.selectionStart;
+                const value = markdownInput.value;
+                markdownInput.value = value.substring(0, start) + tableSyntax + value.substring(start);
+                markdownInput.focus();
+                markdownInput.selectionStart = markdownInput.selectionEnd = start + tableSyntax.length;
+                updatePreview();
+                saveContent();
+            }
+
+            function exportMarkdown() {
+                try {
+                    const fullContent = generateFullMarkdown();
+                    const blob = new Blob([fullContent], { type: 'text/markdown;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    const safeTitle = fmTitle.value.trim().replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                    a.download = (safeTitle || 'my_article') + '.md';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                } catch (error) {
+                    console.error("エクスポートに失敗しました:", error);
+                    alert("エクスポートに失敗しました。コンソールを確認してください。");
+                }
+            }
+
+            function generateFullMarkdown() {
+                const escape = (str) => str.replace(/"/g, '\"');
+                
+                const frontmatterData = {
+                    title: fmTitle.value.trim(),
+                    date: fmDate.value.trim(),
+                    image: fmImage.value.trim(),
+                    category: fmCategory.value.trim(),
+                    categoryColor: fmCategoryColor.value.trim(),
+                    description: fmDescription.value.trim(),
+                    tags: fmTags.value.trim()
+                };
+
+                let frontmatter = '---\n';
+                frontmatter += `title: "${escape(frontmatterData.title)}"\n`;
+                frontmatter += `date: "${frontmatterData.date}"\n`;
+                frontmatter += `image: "${frontmatterData.image}"\n`;
+                frontmatter += `category: "${escape(frontmatterData.category)}"\n`;
+                frontmatter += `categoryColor: "${frontmatterData.categoryColor}"\n`;
+                frontmatter += `description: "${escape(frontmatterData.description)}"\n`;
+                
+                const tagsArray = frontmatterData.tags ? frontmatterData.tags.split(',').map(tag => `"${escape(tag.trim())}"`) : [];
+                frontmatter += `tags: [${tagsArray.join(', ')}]\n`;
+                frontmatter += '---\n\n';
+
+                return frontmatter + markdownInput.value;
+            }
+
+            const LOCAL_STORAGE_KEY = 'markdownEditorContent';
+
+            function saveContent() {
+                const content = {
+                    title: fmTitle.value,
+                    date: fmDate.value,
+                    image: fmImage.value,
+                    category: fmCategory.value,
+                    categoryColor: fmCategoryColor.value,
+                    description: fmDescription.value,
+                    tags: fmTags.value,
+                    markdownBody: markdownInput.value
+                };
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(content));
+            }
+
+            function loadContent() {
+                const savedContent = localStorage.getItem(LOCAL_STORAGE_KEY);
+                if (savedContent) {
+                    const content = JSON.parse(savedContent);
+                    fmTitle.value = content.title || '';
+                    fmDate.value = content.date || new Date().toISOString().split('T')[0];
+                    fmImage.value = content.image || '';
+                    fmCategory.value = content.category || '';
+                    fmCategoryColor.value = content.categoryColor || '';
+                    fmDescription.value = content.description || '';
+                    fmTags.value = content.tags || '';
+                    markdownInput.value = content.markdownBody || '';
+                    if (content.categoryColor) fmColorPicker.value = content.categoryColor;
+                } else {
+                    fmDate.valueAsDate = new Date();
+                }
+                updatePreview();
+            }
+
+            function resetEditor() {
+                if (confirm('入力内容と保存データをすべてリセットしますか？')) {
+                    fmTitle.value = '';
+                    fmDate.valueAsDate = new Date();
+                    fmImage.value = '';
+                    fmCategory.value = '';
+                    fmCategoryColor.value = '';
+                    fmDescription.value = '';
+                    fmTags.value = '';
+                    markdownInput.value = '';
+                    localStorage.removeItem(LOCAL_STORAGE_KEY);
+                    updatePreview();
+                }
+            }
+
+            function loadFile(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    parseAndLoadMarkdown(e.target.result);
+                    saveContent();
+                };
+                reader.readAsText(file);
+            }
+
+            function parseAndLoadMarkdown(fullMarkdown) {
+                const frontmatterRegex = /^---\s*([\s\S]*?)\s*---/;
+                const match = frontmatterRegex.exec(fullMarkdown);
+                
+                let frontmatterAttributes = {};
+                let markdownBodyContent = fullMarkdown;
+
+                if (match) {
+                    const frontmatterRaw = match[1];
+                    markdownBodyContent = fullMarkdown.substring(match[0].length).trim();
+
+                    frontmatterRaw.split('\n').forEach(line => {
+                        const parts = line.split(':');
+                        if (parts.length >= 2) {
+                            const key = parts[0].trim();
+                            let value = parts.slice(1).join(':').trim();
+                            
+                            if (key === 'tags' && value.startsWith('[') && value.endsWith(']')) {
+                                value = value.slice(1, -1).split(',').map(tag => tag.trim().replace(/^"|"$/g, '')).join(', ');
+                            } else {
+                                value = value.replace(/^"|"$/g, '');
+                            }
+                            frontmatterAttributes[key] = value;
+                        }
+                    });
+                }
+
+                fmTitle.value = frontmatterAttributes.title || '';
+                fmDate.value = frontmatterAttributes.date || '';
+                fmImage.value = frontmatterAttributes.image || '';
+                fmCategory.value = frontmatterAttributes.category || '';
+                fmCategoryColor.value = frontmatterAttributes.categoryColor || '';
+                fmDescription.value = frontmatterAttributes.description || '';
+                fmTags.value = frontmatterAttributes.tags || '';
+                if (frontmatterAttributes.categoryColor) fmColorPicker.value = frontmatterAttributes.categoryColor;
+
+                markdownInput.value = markdownBodyContent;
+                updatePreview();
+            }
+
+            // Initial load
+            loadContent();
+        });
     </script>
 </body>
 </html>
