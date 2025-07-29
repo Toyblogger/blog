@@ -38,15 +38,18 @@
             --sky-color: #87CEEB;
             --cloud-color: white;
             background-color: var(--sky-color);
-            background-image:
-                radial-gradient(farthest-side at 10% 90%, var(--cloud-color) 15%, transparent 0),
-                radial-gradient(farthest-side at 15% 85%, var(--cloud-color) 20%, transparent 0),
-                radial-gradient(farthest-side at 25% 95%, var(--cloud-color) 25%, transparent 0),
-                radial-gradient(farthest-side at 70% 10%, var(--cloud-color) 15%, transparent 0),
-                radial-gradient(farthest-side at 75% 15%, var(--cloud-color) 20%, transparent 0),
-                radial-gradient(farthest-side at 85% 5%, var(--cloud-color) 25%, transparent 0);
-            background-size: 200px 200px;
-            background-position: 0 0, 0 0, 0 0, 100px 100px, 100px 100px, 100px 100px;
+            background-image: 
+                /* Cloud 1 (bottom-left) */
+                radial-gradient(ellipse at 18% 80%, var(--cloud-color) 15%, transparent 15.5%),
+                radial-gradient(ellipse at 30% 70%, var(--cloud-color) 25%, transparent 25.5%),
+                radial-gradient(ellipse at 45% 80%, var(--cloud-color) 15%, transparent 15.5%),
+
+                /* Cloud 2 (top-right) */
+                radial-gradient(ellipse at 75% 30%, var(--cloud-color) 20%, transparent 20.5%),
+                radial-gradient(ellipse at 88% 25%, var(--cloud-color) 10%, transparent 10.5%);
+
+            background-size: 500px 350px;
+            background-repeat: repeat;
         }
         .font-header { font-family: 'Mochiy Pop One', sans-serif; }
         .card { transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; }
