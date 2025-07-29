@@ -1,48 +1,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://Toyblogger.github.io/blog/</loc>
-    <lastmod>2025-07-29T09:31:35.171Z</lastmod>
+    <lastmod>2025-07-29T09:31:59.873Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://Toyblogger.github.io/blog/index.html</loc>
-    <lastmod>2025-07-29T09:31:35.171Z</lastmod>
+    <lastmod>2025-07-29T09:31:59.873Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://Toyblogger.github.io/blog/article.html?post=articles/pixar-game-day.md</loc>
-    <lastmod>2025-07-29T09:31:33.916Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
     <loc>https://Toyblogger.github.io/blog/article.html?post=articles/policy.md</loc>
-    <lastmod>2025-07-29T09:31:33.916Z</lastmod>
+    <lastmod>2025-07-29T09:31:47.416Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://Toyblogger.github.io/blog/article.html?post=articles/sample-post.md</loc>
-    <lastmod>2025-07-29T09:31:33.916Z</lastmod>
+    <lastmod>2025-07-29T09:31:47.416Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://Toyblogger.github.io/blog/article.html?post=articles/summer-event.md</loc>
-    <lastmod>2025-07-29T09:31:33.916Z</lastmod>
+    <lastmod>2025-07-29T09:31:47.416Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://Toyblogger.github.io/blog/article.html?post=articles/theme-preview.md</loc>
-    <lastmod>2025-07-29T09:31:33.916Z</lastmod>
+    <lastmod>2025-07-29T09:31:47.416Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
