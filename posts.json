@@ -10,20 +10,6 @@
         "tags": []
     },
     {
-        "file": "articles/sample-post.md",
-        "title": "新しいサンプル記事",
-        "date": "2025-07-23",
-        "category": "お知らせ",
-        "categoryColor": "purple",
-        "image": "https://placehold.co/600x400/8B5CF6/FFFFFF?text=サンプル",
-        "description": "これは新しいサンプル記事です。Markdownのテスト用に作成されました。",
-        "tags": [
-            "サンプル",
-            "Markdown",
-            "テスト"
-        ]
-    },
-    {
         "file": "articles/summer-event.md",
         "title": "【2025年夏】東京ディズニーリゾートのサマー・クールオフ完全ガイド",
         "date": "2025-07-22",
