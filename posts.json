@@ -38,19 +38,5 @@
             "限定グッズ",
             "ショー"
         ]
-    },
-    {
-        "file": "articles/theme-preview.md",
-        "title": "テーマデザイン・プレビュー",
-        "date": "2025-07-22",
-        "category": "お知らせ",
-        "categoryColor": "green",
-        "image": "https://placehold.co/800x400/4ADE80/FFFFFF?text=テーマプレビュー",
-        "description": "ブログで使用されている見出し、リスト、引用、テーブルなどのカスタムデザイン要素をプレビューします。",
-        "tags": [
-            "デザイン",
-            "プレビュー",
-            "CSS"
-        ]
     }
 ]
