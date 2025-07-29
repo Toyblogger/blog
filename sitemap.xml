@@ -1,27 +1,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://Toyblogger.github.io/blog/</loc>
-    <lastmod>2025-07-29T13:51:34.171Z</lastmod>
+    <lastmod>2025-07-29T13:59:43.817Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://Toyblogger.github.io/blog/index.html</loc>
-    <lastmod>2025-07-29T13:51:34.171Z</lastmod>
+    <lastmod>2025-07-29T13:59:43.817Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://Toyblogger.github.io/blog/article.html?post=articles/policy.md</loc>
-    <lastmod>2025-07-29T13:51:32.763Z</lastmod>
+    <loc>https://Toyblogger.github.io/blog/article.html?post=articles/summer-event.md</loc>
+    <lastmod>2025-07-29T13:59:37.614Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://Toyblogger.github.io/blog/article.html?post=articles/summer-event.md</loc>
-    <lastmod>2025-07-29T13:51:32.763Z</lastmod>
+    <loc>https://Toyblogger.github.io/blog/article.html?post=articles/policy.md</loc>
+    <lastmod>2025-07-29T13:59:37.613Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
