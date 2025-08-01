@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プライバシーポリシー - My Blog</title>
+    <link rel="stylesheet" href="../style.css"> <!-- 必要に応じてパスを調整 -->
+</head>
+<body>
+    <header>
+        <h1><a href="../index.html">My Blog</a></h1>
+    </header>
+    <main>
+        <article>
+            <h2>プライバシーポリシー</h2>
+            <p class="post-meta">公開日: 2025-07-25 | カテゴリ: プライバシーポリシー</p>
+            <div class="post-content">
+                <h1>プライバシーポリシーを設定しました。</h1>
+<p>こんにちは。下記、「プライバシーポリシー」に関して記載致しましたので、ご一読願います。</p>
+<h3>当サイトが使用しているアクセス解析ツールについて</h3>
+<p>当サイトでは、Googleによるアクセス解析ツール「Googleアナリティクス」を利用しています。
+このGoogleアナリティクスはトラフィックデータの収集のためにCookieを使用しています。
+このトラフィックデータは匿名で収集されており、個人を特定するものではありません。
+この機能はCookieを無効にすることで収集を拒否することが出来ますので、お使いのブラウザの設定をご確認ください。</p>
+<h3>当サイトへのコメントについて</h3>
+<p>全てのコメントは管理人が事前にその内容を確認し、承認した上での掲載となりますことをあらかじめご了承下さい。
+加えて、次の各号に掲げる内容を含むコメントは管理人の裁量によって承認せず、削除する事があります。</p>
+<ul>
+<li>特定の自然人または法人を誹謗し、中傷するもの。
+極度にわいせつな内容を含むもの。</li>
+<li>禁制品の取引に関するものや、他者を害する行為の依頼など、法律によって禁止されている物品、行為の依頼や斡旋などに関するもの。</li>
+<li>その他、公序良俗に反し、または管理人によって承認すべきでないと認められるもの。</li>
+</ul>
+<h3>免責事項</h3>
+<p>当サイトで掲載している画像の著作権・肖像権等は各権利所有者に帰属致します。権利を侵害する目的ではございません。記事の内容や掲載画像等に問題がございましたら、各権利所有者様本人が直接メールでご連絡下さい。確認後、対応させて頂きます。
+当サイトからリンクやバナーなどによって他のサイトに移動された場合、移動先サイトで提供される情報、サービス等について一切の責任を負いません。</p>
+<p>当サイトのコンテンツ・情報につきまして、可能な限り正確な情報を掲載するよう努めておりますが、誤情報が入り込んだり、情報が古くなっていることもございます。
+当サイトに掲載された内容によって生じた損害等の一切の責任を負いかねますのでご了承ください。
+プライバシーポリシーの変更について
+当サイトは、個人情報に関して適用される日本の法令を遵守するとともに、本ポリシーの内容を適宜見直しその改善に努めます。
+修正された最新のプライバシーポリシーは常に本ページにて開示されます。</p>
+
+            </div>
+        </article>
+        <aside class="related-posts">
+            <h3>関連記事</h3>
+            <ul id="related-posts-list">
+                <!-- 関連記事はJavaScriptで動的に挿入 -->
+            </ul>
+        </aside>
+    </main>
+    <footer>
+        <p>&copy; 2025 My Blog</p>
+    </footer>
+
+    <script>
+        // 関連記事表示のためのJavaScript
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('../posts.json')
+                .then(response => response.json())
+                .then(posts => {
+                    const currentPostSlug = window.location.pathname.split('/').pop().replace('.html', '');
+                    const currentPost = posts.find(post => post.slug === currentPostSlug);
+
+                    if (currentPost) {
+                        const relatedPostsList = document.getElementById('related-posts-list');
+                        const related = posts.filter(post =>
+                            post.slug !== currentPostSlug &&
+                            (post.tags.some(tag => currentPost.tags.includes(tag)) || post.category === currentPost.category)
+                        ).slice(0, 5); // 最大5件の関連記事を表示
+
+                        if (related.length > 0) {
+                            related.forEach(post => {
+                                const listItem = document.createElement('li');
+                                const link = document.createElement('a');
+                                link.href = `../articles/${post.slug}.html`;
+                                link.textContent = post.title;
+                                listItem.appendChild(link);
+                                relatedPostsList.appendChild(listItem);
+                            });
+                        } else {
+                            relatedPostsList.innerHTML = '<li>関連記事はありません。</li>';
+                        }
+                    }
+                })
+                .catch(error => console.error('Error loading posts.json:', error));
+        });
+    </script>
+</body>
+</html>

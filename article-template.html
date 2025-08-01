@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - My Blog</title>
+    <link rel="stylesheet" href="../style.css"> <!-- 必要に応じてパスを調整 -->
+</head>
+<body>
+    <header>
+        <h1><a href="../index.html">My Blog</a></h1>
+    </header>
+    <main>
+        <article>
+            <h2>{{title}}</h2>
+            <p class="post-meta">公開日: {{date}} | カテゴリ: {{category}}</p>
+            <div class="post-content">
+                {{content}}
+            </div>
+        </article>
+        <aside class="related-posts">
+            <h3>関連記事</h3>
+            <ul id="related-posts-list">
+                <!-- 関連記事はJavaScriptで動的に挿入 -->
+            </ul>
+        </aside>
+    </main>
+    <footer>
+        <p>&copy; 2025 My Blog</p>
+    </footer>
+
+    <script>
+        // 関連記事表示のためのJavaScript
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('../posts.json')
+                .then(response => response.json())
+                .then(posts => {
+                    const currentPostSlug = window.location.pathname.split('/').pop().replace('.html', '');
+                    const currentPost = posts.find(post => post.slug === currentPostSlug);
+
+                    if (currentPost) {
+                        const relatedPostsList = document.getElementById('related-posts-list');
+                        const related = posts.filter(post =>
+                            post.slug !== currentPostSlug &&
+                            (post.tags.some(tag => currentPost.tags.includes(tag)) || post.category === currentPost.category)
+                        ).slice(0, 5); // 最大5件の関連記事を表示
+
+                        if (related.length > 0) {
+                            related.forEach(post => {
+                                const listItem = document.createElement('li');
+                                const link = document.createElement('a');
+                                link.href = `../articles/${post.slug}.html`;
+                                link.textContent = post.title;
+                                listItem.appendChild(link);
+                                relatedPostsList.appendChild(listItem);
+                            });
+                        } else {
+                            relatedPostsList.innerHTML = '<li>関連記事はありません。</li>';
+                        }
+                    }
+                })
+                .catch(error => console.error('Error loading posts.json:', error));
+        });
+    </script>
+</body>
+</html>

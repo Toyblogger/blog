@@ -1,25 +1,12 @@
 [
     {
-        "file": "articles/theme-preview.md",
-        "title": "テーマデザイン・プレビュー",
-        "date": "2025-07-22",
-        "category": "お知らせ",
-        "categoryColor": "green",
-        "image": "https://placehold.co/800x400/4ADE80/FFFFFF?text=テーマプレビュー",
-        "description": "ブログで使用されている見出し、リスト、引用、テーブルなどのカスタムデザイン要素をプレビューします。",
-        "tags": [
-            "デザイン",
-            "プレビュー",
-            "CSS"
-        ]
-    },
-    {
-        "file": "articles/summer-event.md",
+        "slug": "summer-event",
+        "url": "articles_html/summer-event.html",
         "title": "【2025年夏】東京ディズニーリゾートのサマー・クールオフ完全ガイド",
-        "date": "2025-07-22",
+        "date": "2025-07-25",
         "category": "ディズニー",
         "categoryColor": "blue",
-        "image": "https://www.tokyodisneyresort.jp/treasure/summer2025/tdl/images/mainvisual.jpg",
+        "image": "https://toyblogger.github.io/blog/thumbnails/IMG_4045.png",
         "description": "2025年夏限定イベント「サマー・クールオフ at Tokyo Disney Resort」の見どころを完全解説！ベイマックスのパレードや限定グルメなど情報満載。",
         "tags": [
             "ディズニー",
@@ -30,46 +17,14 @@
         ]
     },
     {
-        "file": "articles/sample-post.md",
-        "title": "新しいサンプル記事",
-        "date": "2025-07-23",
-        "category": "お知らせ",
-        "categoryColor": "purple",
-        "image": "https://placehold.co/600x400/8B5CF6/FFFFFF?text=サンプル",
-        "description": "これは新しいサンプル記事です。Markdownのテスト用に作成されました。",
-        "tags": [
-            "サンプル",
-            "Markdown",
-            "テスト"
-        ]
-    },
-    {
-        "file": "articles/pixar-game-day.md",
-        "title": "ピクサー・パルズ・ゲームデー開催！",
+        "slug": "policy",
+        "url": "articles_html/policy.html",
+        "title": "プライバシーポリシー",
         "date": "2025-07-25",
-        "category": "新イベント",
-        "categoryColor": "green",
-        "image": "https://placehold.co/600x400/34D399/FFFFFF?text=ゲームデー！",
-        "description": "この夏限定のスペシャルイベント「ピクサー・パルズ・ゲームデー」！トイ・ストーリーやモンスターズ・インクの仲間たちとゲームに挑戦しよう！",
-        "tags": [
-            "ピクサー",
-            "イベント",
-            "ゲーム",
-            "限定フード"
-        ]
-    },
-    {
-        "file": "articles/gemini-test.md",
-        "title": "Geminiテスト記事",
-        "date": "2025-07-26",
-        "category": "テスト",
-        "categoryColor": "green",
-        "image": "https://via.placeholder.com/800x400.png?text=Test+Image",
-        "description": "これはGeminiのテスト記事です。サイトマップの自動生成機能を確認します。",
-        "tags": [
-            "テスト",
-            "Gemini",
-            "自動生成"
-        ]
+        "category": "プライバシーポリシー",
+        "categoryColor": "gray",
+        "image": "https://toyblogger.github.io/blog/thumbnails/001.png",
+        "description": "プライバシーポリシーです。",
+        "tags": []
     }
 ]
