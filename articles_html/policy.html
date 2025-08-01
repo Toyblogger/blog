@@ -4,17 +4,201 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>プライバシーポリシー - My Blog</title>
-    <link rel="stylesheet" href="../style.css"> <!-- 必要に応じてパスを調整 -->
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts for a playful look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles from index.html */
+        html { scroll-behavior: smooth; }
+        body {
+            --sky-color: #87CEEB;
+            --cloud-color: white;
+            background-color: var(--sky-color);
+            background-image: 
+                /* Cloud 1 (bottom-left) */
+                radial-gradient(ellipse at 18% 80%, var(--cloud-color) 15%, transparent 15.5%),
+                radial-gradient(ellipse at 30% 70%, var(--cloud-color) 25%, transparent 25.5%),
+                radial-gradient(ellipse at 45% 80%, var(--cloud-color) 15%, transparent 15.5%),
+
+                /* Cloud 2 (top-right) */
+                radial-gradient(ellipse at 75% 30%, var(--cloud-color) 20%, transparent 20.5%),
+                radial-gradient(ellipse at 88% 25%, var(--cloud-color) 10%, transparent 10.5%);
+
+            background-size: 500px 350px;
+            background-repeat: repeat;
+        }
+        .font-header { font-family: 'Mochiy Pop One', sans-serif; }
+        .card { transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; }
+        .card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+
+        .toy-story-title {
+            color: #E53935;
+            text-shadow: 3px 3px 0px #FBBF24, 5px 5px 0px #3B82F6;
+            transform: rotate(-2deg);
+            display: inline-block;
+            transition: transform 0.2s ease-in-out;
+        }
+        .toy-story-title:hover { transform: rotate(1deg) scale(1.05); }
+
+        /* Hamburger Menu */
+        #mobile-menu { background-color: #FFFDE7; border-bottom: 4px dashed #F9A825; transition: transform 0.3s ease-out, opacity 0.3s ease-out; transform-origin: top; }
+        #mobile-menu.is-closed { transform: scaleY(0); opacity: 0; display: none; }
+        #mobile-menu a::before { display: inline-block; margin-right: 10px; font-size: 1.2em; }
+        #mobile-menu a[data-category="all"]::before { content: '🏠'; }
+        #mobile-menu a[data-category="イベント"]::before { content: '🎪'; }
+        #mobile-menu a[data-category="グッズ"]::before { content: '🎁'; }
+        #mobile-menu a[data-category="プライバシーポリシー"]::before { content: '🔧'; }
+
+        /* Search Box */
+        #search-box {
+            border: 4px solid #F59E0B; border-radius: 50px; padding: 0.5rem 1.5rem;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        #search-box:focus {
+            outline: none; box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.5); border-color: #FBBF24;
+        }
+
+        /* Tag Cloud */
+        .tag-cloud {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+            border: 4px dashed #34D399;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+        }
+        .tag-cloud-title { font-family: 'Mochiy Pop One', sans-serif; color: #10B981; font-size: 1.8rem; text-align: center; margin-bottom: 1.5rem; }
+        .tag-cloud-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+        .tag-cloud-list a {
+            background-color: #FBBF24; color: #78350F; font-weight: bold; padding: 0.5rem 1rem;
+            border-radius: 9999px; text-decoration: none; font-size: 0.9rem;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .tag-cloud-list a:hover { background-color: #F59E0B; transform: scale(1.05); }
+
+        /* Pagination */
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 3rem; }
+        .pagination a, .pagination span {
+            background-color: #3B82F6; color: white; font-family: 'Mochiy Pop One', sans-serif;
+            padding: 0.75rem 1.25rem; border-radius: 12px; text-decoration: none;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .pagination a:hover { background-color: #2563EB; transform: scale(1.05); }
+        .pagination .current { background-color: #EF4444; cursor: default; }
+        .pagination .disabled { background-color: #9CA3AF; cursor: not-allowed; opacity: 0.7; }
+
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed; bottom: 20px; right: 20px; background-color: #EF4444; color: white;
+            width: 50px; height: 50px; border-radius: 50%;
+            display: none; justify-content: center; align-items: center; font-size: 24px;
+            cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: opacity 0.3s, transform 0.3s;
+        }
+        #back-to-top:hover { background-color: #DC2626; transform: scale(1.1); }
+
+        /* Styles for article content (from markdown) */
+        .post-content h1, .post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6 {
+            font-family: 'Mochiy Pop One', sans-serif;
+            color: #E53935; /* Example color */
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .post-content h1 { font-size: 2.5em; }
+        .post-content h2 { font-size: 2em; }
+        .post-content h3 { font-size: 1.75em; }
+        .post-content p {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.6;
+            margin-bottom: 1em;
+        }
+        .post-content ul, .post-content ol {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin-left: 2em;
+            margin-bottom: 1em;
+        }
+        .post-content li {
+            margin-bottom: 0.5em;
+        }
+        .post-content a {
+            color: #3B82F6;
+            text-decoration: underline;
+        }
+        .post-content a:hover {
+            color: #2563EB;
+        }
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1em auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .post-content blockquote {
+            border-left: 4px solid #FBBF24;
+            padding-left: 1em;
+            margin: 1em 0;
+            color: #555;
+            font-style: italic;
+        }
+        .post-content code {
+            background-color: #f0f0f0;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .post-content pre {
+            background-color: #f0f0f0;
+            padding: 1em;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1em;
+        }
+        .post-content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1><a href="../index.html">My Blog</a></h1>
+    <header class="bg-white md:bg-white/80 md:backdrop-blur-sm shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-3xl md:text-4xl font-header">
+                <a href="../index.html" class="toy-story-title category-link" data-category="all">トイブログ！</a>
+            </h1>
+            <nav class="hidden md:flex space-x-8">
+                <a href="../index.html" class="category-link text-lg text-gray-700 hover:text-yellow-500 transition-colors duration-300" data-category="all">ホーム</a>
+                <a href="../index.html?category=イベント" class="category-link text-lg text-gray-700 hover:text-yellow-500 transition-colors duration-300" data-category="イベント">イベント</a>
+                <a href="../index.html?category=グッズ" class="category-link text-lg text-gray-700 hover:text-yellow-500 transition-colors duration-300" data-category="グッズ">グッズ</a>
+                <a href="policy.html" class="category-link text-lg text-gray-700 hover:text-yellow-500 transition-colors duration-300" data-category="プライバシーポリシー">プライバシーポリシー</a>
+            </nav>
+            <button id="menu-button" class="md:hidden text-gray-800 focus:outline-none w-8 h-8">
+                <svg viewBox="0 0 100 80" width="40" height="40">
+                  <rect fill="#EF4444" width="100" height="20" rx="10"></rect>
+                  <rect fill="#FBBF24" y="30" width="100" height="20" rx="10"></rect>
+                  <rect fill="#3B82F6" y="60" width="100" height="20" rx="10"></rect>
+                </svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="is-closed md:hidden">
+            <a href="../index.html" class="category-link block py-3 px-6 text-lg text-gray-700 hover:bg-yellow-200 transition-colors duration-200" data-category="all">ホーム</a>
+            <a href="../index.html?category=イベント" class="category-link block py-3 px-6 text-lg text-gray-700 hover:bg-yellow-200 transition-colors duration-200" data-category="イベント">イベント</a>
+            <a href="../index.html?category=グッズ" class="category-link block py-3 px-6 text-lg text-gray-700 hover:bg-yellow-200 transition-colors duration-200" data-category="グッズ">グッズ</a>
+            <a href="policy.html" class="category-link block py-3 px-6 text-lg text-gray-700 hover:bg-yellow-200 transition-colors duration-200" data-category="プライバシーポリシー">プライバシーポリシー</a>
+        </div>
     </header>
-    <main>
+
+    <main class="container mx-auto p-4 md:p-8 bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border-4 border-yellow-400 mt-8">
         <article>
-            <h2>プライバシーポリシー</h2>
-            <p class="post-meta">公開日: 2025-07-25 | カテゴリ: プライバシーポリシー</p>
-            <div class="post-content">
+            <h2 class="text-4xl md:text-5xl font-header text-red-500 mb-4">プライバシーポリシー</h2>
+            <p class="post-meta text-gray-600 mb-4">公開日: 2025-07-25 | カテゴリ: <span class="category-link text-sm bg-blue-500 text-white font-bold px-3 py-1 rounded-full cursor-pointer" data-category="プライバシーポリシー">プライバシーポリシー</span></p>
+            <div class="post-content text-gray-800">
                 <h1>プライバシーポリシーを設定しました。</h1>
 <p>こんにちは。下記、「プライバシーポリシー」に関して記載致しましたので、ご一読願います。</p>
 <h3>当サイトが使用しているアクセス解析ツールについて</h3>
@@ -42,9 +226,9 @@
 
             </div>
         </article>
-        <aside class="related-posts">
-            <h3>関連記事</h3>
-            <ul id="related-posts-list">
+        <aside class="related-posts mt-12 p-6 bg-white rounded-lg shadow-md border border-gray-200">
+            <h3 class="font-header text-2xl text-blue-600 mb-4">関連記事</h3>
+            <ul id="related-posts-list" class="list-disc pl-5">
                 <!-- 関連記事はJavaScriptで動的に挿入 -->
             </ul>
         </aside>
@@ -52,6 +236,8 @@
     <footer>
         <p>&copy; 2025 My Blog</p>
     </footer>
+
+    <button id="back-to-top" title="トップに戻る">▲</button>
 
     <script>
         // 関連記事表示のためのJavaScript
@@ -73,7 +259,7 @@
                             related.forEach(post => {
                                 const listItem = document.createElement('li');
                                 const link = document.createElement('a');
-                                link.href = `../articles/${post.slug}.html`;
+                                link.href = `../articles_html/${post.slug}.html`; // リンクを修正
                                 link.textContent = post.title;
                                 listItem.appendChild(link);
                                 relatedPostsList.appendChild(listItem);
@@ -85,6 +271,22 @@
                 })
                 .catch(error => console.error('Error loading posts.json:', error));
         });
+
+        // Back to Top Button (from index.html)
+        function initializeBackToTop() {
+            const backToTopButton = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.style.display = 'flex';
+                } else {
+                    backToTopButton.style.display = 'none';
+                }
+            });
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+        initializeBackToTop(); // Call it on DOMContentLoaded
     </script>
 </body>
 </html>
