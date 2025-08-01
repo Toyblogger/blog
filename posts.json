@@ -1,5 +1,16 @@
 [
     {
+        "slug": "policy",
+        "url": "articles_html/policy.html",
+        "title": "プライバシーポリシー",
+        "date": "2025-07-25",
+        "category": "プライバシーポリシー",
+        "categoryColor": "gray",
+        "image": "https://toyblogger.github.io/blog/thumbnails/001.png",
+        "description": "プライバシーポリシーです。",
+        "tags": []
+    },
+    {
         "slug": "summer-event",
         "url": "articles_html/summer-event.html",
         "title": "【2025年夏】東京ディズニーリゾートのサマー・クールオフ完全ガイド",
@@ -15,16 +26,5 @@
             "限定グッズ",
             "ショー"
         ]
-    },
-    {
-        "slug": "policy",
-        "url": "articles_html/policy.html",
-        "title": "プライバシーポリシー",
-        "date": "2025-07-25",
-        "category": "プライバシーポリシー",
-        "categoryColor": "gray",
-        "image": "https://toyblogger.github.io/blog/thumbnails/001.png",
-        "description": "プライバシーポリシーです。",
-        "tags": []
     }
 ]
