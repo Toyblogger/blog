@@ -1,12 +1,20 @@
 const fs = require('fs');
 const path = require('path');
+const { marked } = require('marked'); // markedをインポート
 
 const articlesDir = path.join(__dirname, 'articles');
+const articlesHtmlDir = path.join(__dirname, 'articles_html'); // 新しい出力ディレクトリ
 const postsJsonPath = path.join(__dirname, 'posts.json');
 const sitemapPath = path.join(__dirname, 'sitemap.xml');
+const articleTemplatePath = path.join(__dirname, 'article-template.html'); // テンプレートファイルのパス
 
 // GitHub PagesのURLに合わせて変更してください
 const baseUrl = 'https://Toyblogger.github.io/blog/';
+
+// articles_html ディレクトリが存在しない場合は作成
+if (!fs.existsSync(articlesHtmlDir)) {
+    fs.mkdirSync(articlesHtmlDir);
+}
 
 // --- Frontmatterをパースする関数 ---
 function parseFrontmatter(markdown) {
@@ -19,7 +27,6 @@ function parseFrontmatter(markdown) {
             const [key, ...valueParts] = line.split(':');
             if (key && valueParts.length) {
                 let value = valueParts.join(':').trim();
-                // タグのような配列の場合
                 if (value.startsWith('[') && value.endsWith(']')) {
                     attributes[key.trim()] = value.slice(1, -1).split(',').map(tag => tag.trim().replace(/^"|"$/g, ''));
                 } else {
@@ -31,8 +38,17 @@ function parseFrontmatter(markdown) {
     return attributes;
 }
 
+// --- Markdownコンテンツを抽出する関数 ---
+function extractMarkdownContent(markdown) {
+    const frontmatterRegex = /^---\s*[\s\S]*?\s*---/;
+    return markdown.replace(frontmatterRegex, '').trim();
+}
+
 // 1. articlesディレクトリからマークダウンファイルの一覧を取得
 const articleFiles = fs.readdirSync(articlesDir).filter(file => file.endsWith('.md'));
+
+// 記事テンプレートを読み込む
+const articleTemplate = fs.readFileSync(articleTemplatePath, 'utf8');
 
 // 2. 各ファイルの情報を取得し、新しい順にソート
 const posts = articleFiles.map(file => {
@@ -40,9 +56,25 @@ const posts = articleFiles.map(file => {
     const content = fs.readFileSync(filePath, 'utf8');
     const stats = fs.statSync(filePath);
     const attributes = parseFrontmatter(content);
-    
+    const markdownContent = extractMarkdownContent(content);
+    const htmlContent = marked(markdownContent); // MarkdownをHTMLに変換
+
+    const slug = file.replace(/\.md$/, ''); // ファイル名からスラッグを生成
+    const articleHtmlFileName = `${slug}.html`;
+    const articleHtmlFilePath = path.join(articlesHtmlDir, articleHtmlFileName);
+
+    // テンプレートにデータを挿入してHTMLファイルを生成
+    let finalHtml = articleTemplate
+        .replace(/{{title}}/g, attributes.title || '無題の記事')
+        .replace(/{{date}}/g, attributes.date || new Date(stats.mtime).toISOString().split('T')[0])
+        .replace(/{{category}}/g, attributes.category || '未分類')
+        .replace(/{{content}}/g, htmlContent);
+
+    fs.writeFileSync(articleHtmlFilePath, finalHtml);
+
     return {
-        file: `articles/${file}`,
+        slug: slug, // スラッグを追加
+        url: `articles_html/${articleHtmlFileName}`, // 新しいURL形式
         mtime: stats.mtime.getTime(),
         title: attributes.title || '無題の記事',
         date: attributes.date || new Date(stats.mtime).toISOString().split('T')[0],
@@ -59,6 +91,7 @@ const finalPosts = posts.map(({ mtime, ...rest }) => rest);
 fs.writeFileSync(postsJsonPath, JSON.stringify(finalPosts, null, 4));
 
 console.log(`Successfully generated posts.json with ${finalPosts.length} articles.`);
+console.log(`Successfully generated ${finalPosts.length} HTML articles in ${articlesHtmlDir}.`);
 
 // 4. サイトマップ(sitemap.xml)を生成
 const sitemapContent = `
@@ -77,7 +110,7 @@ const sitemapContent = `
   </url>
 ${posts.map(post => `
   <url>
-    <loc>${baseUrl}article.html?post=${post.file}</loc>
+    <loc>${baseUrl}${post.url}</loc>
     <lastmod>${new Date(post.mtime).toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
