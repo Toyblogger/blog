@@ -61,20 +61,37 @@ const posts = articleFiles.map(file => {
 
     const slug = file.replace(/\.md$/, ''); // ファイル名からスラッグを生成
     const articleHtmlFileName = `${slug}.html`;
+    const articleRelativeUrl = `articles_html/${articleHtmlFileName}`;
+    const articleAbsoluteUrl = `${baseUrl}${articleRelativeUrl}`;
     const articleHtmlFilePath = path.join(articlesHtmlDir, articleHtmlFileName);
+
+    // タグのHTMLを生成
+    let tagsHtml = '';
+    if (attributes.tags && attributes.tags.length > 0) {
+        tagsHtml = attributes.tags.map(tag => `<a href="${baseUrl}index.html?tag=${encodeURIComponent(tag)}">${tag}</a>`).join('');
+    } else {
+        // タグがない場合はタグセクションを非表示にするためのコメント
+        tagsHtml = '<!-- No tags, hide section -->';
+    }
 
     // テンプレートにデータを挿入してHTMLファイルを生成
     let finalHtml = articleTemplate
         .replace(/{{title}}/g, attributes.title || '無題の記事')
         .replace(/{{date}}/g, attributes.date || new Date(stats.mtime).toISOString().split('T')[0])
         .replace(/{{category}}/g, attributes.category || '未分類')
+        .replace(/{{description}}/g, attributes.description || '記事の説明がありません。')
+        .replace(/{{image}}/g, attributes.image || 'https://placehold.co/600x400/gray/FFFFFF?text=No+Image')
+        .replace(/{{url}}/g, articleAbsoluteUrl)
+        .replace(/{{alt_title}}/g, attributes.title || '無題の記事')
+        .replace(/{{categoryColor}}/g, attributes.categoryColor || 'red') // カテゴリカラーを挿入
+        .replace(/<!-- Tags will be displayed here -->/g, tagsHtml) // タグHTMLを挿入
         .replace(/{{content}}/g, htmlContent);
 
     fs.writeFileSync(articleHtmlFilePath, finalHtml);
 
     return {
         slug: slug, // スラッグを追加
-        url: `articles_html/${articleHtmlFileName}`, // 新しいURL形式
+        url: articleRelativeUrl, // 新しいURL形式
         mtime: stats.mtime.getTime(),
         title: attributes.title || '無題の記事',
         date: attributes.date || new Date(stats.mtime).toISOString().split('T')[0],
